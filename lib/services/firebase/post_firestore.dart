@@ -77,7 +77,7 @@ class PostFireStore {
   //   });
   // }
 
-  Future<Query<Object?>> getRecommendedPosts() async {
+  Query getRecommendedPosts() {
     String userId = Get.find<UserViewModel>().currentUser!.id!;
     return FirebaseFirestore.instance
         .collection(tableUsers)
@@ -108,6 +108,11 @@ class PostFireStore {
     return _postsReference
         .where(fieldPostOwnerId, isEqualTo: userId)
         .orderBy(fieldPostTime, descending: true);
+  }
+
+  Query getPublicPostsQuery({String? userId}) {
+    userId ?? currentUser.id!;
+    return _postsReference.orderBy(fieldPostTime, descending: true);
   }
 
   Stream<DocumentSnapshot> getPostSteam(String postId) {

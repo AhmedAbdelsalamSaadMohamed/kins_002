@@ -9,7 +9,7 @@ import 'package:kins_v002/view/screens/tree_screen.dart';
 import 'package:kins_v002/view/tree_widgets/tree_widget.dart';
 import 'package:kins_v002/view/widgets/custom_app_bar_widget.dart';
 import 'package:kins_v002/view/widgets/custom_text.dart';
-import 'package:kins_v002/view/widgets/new_post_wiget.dart';
+import 'package:kins_v002/view/widgets/new_post_widget.dart';
 import 'package:kins_v002/view/widgets/post_widget.dart';
 import 'package:kins_v002/view/widgets/profile_circle_avatar.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
@@ -26,6 +26,7 @@ class ProfileScreen extends StatelessWidget {
         'Get.find<UserViewModel>().allFamily.length   ${Get.find<UserViewModel>().allFamily.length}');
 
     return Scaffold(
+        appBar: AppBar(),
         body: FutureBuilder<Query>(
             future: PostFireStore().getUserPostsQuery(),
             builder: (context, snapshot) {

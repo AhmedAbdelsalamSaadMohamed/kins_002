@@ -1,25 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:kins_v002/services/firebase/post_firestore.dart';
 import 'package:kins_v002/view/widgets/new_post_widget.dart';
 import 'package:kins_v002/view/widgets/post_widget.dart';
-import 'package:kins_v002/view_model/user_view_model.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 
-class HomeTap extends StatelessWidget {
-  HomeTap({Key? key}) : super(key: key);
-  final UserViewModel userController = Get.find<UserViewModel>();
+class PublicTab extends StatelessWidget {
+  PublicTab({Key? key}) : super(key: key);
+  final Query query = PostFireStore().getPublicPostsQuery();
 
   @override
   Widget build(BuildContext context) {
-    Query query = PostFireStore().getRecommendedPosts();
-
-    return RefreshIndicator(
-      onRefresh: () async {
-        query = PostFireStore().getRecommendedPosts();
-      },
-      child: PaginateFirestore(
+    return Scaffold(
+      body: PaginateFirestore(
         itemBuilder: (int index, BuildContext context,
             DocumentSnapshot documentSnapshot) {
           if (index == 0) {

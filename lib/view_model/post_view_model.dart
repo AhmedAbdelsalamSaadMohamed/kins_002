@@ -114,4 +114,6 @@ class PostViewModel extends GetxController {
   Future<PostModel> getPost(String postId) async {
     return await PostFireStore().getPost(postId).then((value) => value);
   }
+
+  getPublicPosts() {}
 }

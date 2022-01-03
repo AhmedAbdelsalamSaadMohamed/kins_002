@@ -11,6 +11,19 @@
   <component name="ChangeListManager">
     <list default="true" id="07932ca9-8efe-485e-b81a-58d617b6992c" name="Default Changelist" comment="Initial commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/android/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/android/app/src/debug/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/android/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/android/app/src/profile/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/constant/themes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/constant/themes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services/firebase/post_firestore.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/firebase/post_firestore.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/screens/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/screens/profile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/profile_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/screens/social_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/social/home_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/social/home_tab.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/widgets/new_post_wiget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/new_post_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/widgets/post_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/post_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view_model/post_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/post_view_model.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +34,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Dart File" />
         <option value="valueResourceFile" />
+        <option value="Dart File" />
       </list>
     </option>
   </component>
@@ -281,7 +294,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641217435299</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Initial commit">
+      <created>1641235009752</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1641235009752</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">

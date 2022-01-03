@@ -25,11 +25,12 @@ class PostWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     PostViewModel postController =
         Get.put(PostViewModel.byTag(postId), tag: postId);
-    UserModel? postOwner = postController.post.ownerId == null
-        ? UserModel()
-        : Get.find<UserViewModel>()
-            .allFamily
-            .firstWhere((element) => element.id == postController.post.ownerId);
+    UserModel? postOwner = postController.post.ownerId == currentUser.id
+        ? currentUser
+        : postController.post.ownerId == null
+            ? UserModel()
+            : Get.find<UserViewModel>().allFamily.firstWhere(
+                (element) => element.id == postController.post.ownerId);
 
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 10),

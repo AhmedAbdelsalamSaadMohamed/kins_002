@@ -1,99 +1,216 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kins_v002/constant/const_colors.dart';
 import 'package:kins_v002/controllers/local_tree_controller.dart';
-import 'package:kins_v002/view_model/main_view_model.dart';
+import 'package:kins_v002/services/firebase/notification_firestore.dart';
+import 'package:kins_v002/view/family_tab.dart';
+import 'package:kins_v002/view/public_tab.dart';
+import 'package:kins_v002/view/screens/profile_screen.dart';
+import 'package:kins_v002/view/social/notifications_tab.dart';
+import 'package:kins_v002/view/widgets/custom_text.dart';
+import 'package:kins_v002/view/widgets/profile_circle_avatar.dart';
+import 'package:kins_v002/view_model/auth_view_model.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
+
+import 'chats_screen.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({Key? key}) : super(key: key);
+  UserViewModel userController = Get.find<UserViewModel>();
 
   @override
   Widget build(BuildContext context) {
     Get.put(UserViewModel(), permanent: true).getUserFromSharedPreferences();
     Get.put<LocalTreeController>(LocalTreeController(), permanent: true)
         .getAllUsers();
-    return GetBuilder<MainViewModel>(
-        init: Get.put(MainViewModel()),
-        builder: (mainController) {
-          Get.find<UserViewModel>();
-          return Scaffold(
-              bottomNavigationBar: _getBottomNavigationBar(),
-              body: Scaffold(
-                // appBar: AppBar(
-                //   actions: [
-                //     IconButton(
-                //         onPressed: () {},
-                //         icon: const Icon(
-                //           Icons.notifications_none_outlined,
-                //           color: Colors.grey,
-                //         )),
-                //     IconButton(
-                //       icon: const Icon(
-                //         Icons.chat_bubble_outline,
-                //         color: primaryColor,
-                //       ),
-                //       onPressed: () {
-                //         Get.to(ChatsScreen());
-                //       },
-                //     ),
-                //     const SizedBox(width: 30)
-                //   ],
-                //   backgroundColor: Colors.white,
-                //   elevation: 0,
-                //   title: CustomText(
-                //     text: 'Kins',
-                //     color: Theme.of(context).primaryColor,
-                //     size: 30,
-                //   ),
-                // ),
-                body: mainController.currentScreen,
-              ));
-        });
-  }
-
-  _getBottomNavigationBar() {
-    return GetBuilder<MainViewModel>(
-        init: Get.put(MainViewModel(), permanent: true),
-        builder: (mainController) {
-          return BottomNavigationBar(
-            selectedItemColor: primaryColor,
-            unselectedItemColor: Colors.grey,
-            elevation: 0,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
+    return SafeArea(
+      child: Scaffold(
+        endDrawer: Drawer(
+          child: ListView(
+            // mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ListTile(
+                leading: ProfileCircleAvatar(
+                    imageUrl: userController.currentUser!.profile!,
+                    radius: 20,
+                    gender: userController.currentUser!.gender),
+                title: CustomText(
+                  text: userController.currentUser!.name!,
                 ),
-                label: '',
+                onTap: () =>
+                    Get.to(ProfileScreen(user: userController.currentUser!)),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.account_tree,
-                  //  color: primaryColor,
-                ),
-                label: '',
+              Divider(),
+              GetBuilder(
+                  init: Get.find<UserViewModel>(),
+                  builder: (controller) {
+                    return ListTile(
+                      title: Text('Dark Mode'.tr),
+                      trailing: Switch(
+                          value: userController.darkMode,
+                          onChanged: (value) {
+                            userController.setDarkMode(value);
+                          }),
+                    );
+                  }),
+              GetBuilder(
+                  init: Get.find<UserViewModel>(),
+                  builder: (controller) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: DropdownButton<String>(
+                          value: userController.language,
+                          onChanged: (value) {
+                            userController.setLanguage(value!);
+                          },
+                          items: [
+                            DropdownMenuItem(
+                              child: Text('English'),
+                              value: 'en',
+                            ),
+                            DropdownMenuItem(
+                              child: Text('العربيه'),
+                              value: 'ar',
+                            )
+                          ]),
+                    );
+                  }),
+              ListTile(
+                title: Text('Settings'.tr),
+                trailing: const Icon(Icons.settings),
+                onTap: () {},
               ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.map,
-                  //color: primaryColor,
-                ),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.group,
-                  //color: primaryColor,
-                ),
-                label: '',
+              const Divider(),
+              ListTile(
+                title: Text('Sign Out'.tr),
+                trailing: const Icon(Icons.logout),
+                onTap: () => Get.put(AuthViewModel()).signOut(),
               ),
             ],
-            currentIndex: mainController.navigatorValue,
-            onTap: (value) {
-              mainController.changeNavigatorValue(value);
-            },
-          );
-        });
+          ),
+        ),
+        body: DefaultTabController(
+          length: 2,
+          child: NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    actions: <Widget>[Container()],
+                    leading: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ProfileCircleAvatar(
+                          imageUrl: userController.currentUser!.profile!,
+                          radius: 20,
+                          gender: userController.currentUser!.gender),
+                    ),
+                    elevation: 0,
+                    pinned: false,
+                    floating: true,
+                    snap: true,
+                    title: Row(
+                      children: [
+                        CustomText(
+                          text: 'Kins',
+                          color: primaryColor,
+                          size: 40,
+                        ),
+                        Expanded(child: Container()),
+                        IconButton(
+                          onPressed: () {
+                            Get.to(NotificationsTab());
+                          },
+                          icon: Stack(children: [
+                            const Icon(
+                              Icons.notifications_none_outlined,
+                              size: 30,
+                            ),
+                            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                                stream: NotificationFireStore()
+                                    .getNotificationsStream(
+                                        Get.find<UserViewModel>()
+                                            .currentUser!
+                                            .id!),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData || snapshot.hasError) {
+                                    return Container();
+                                  }
+                                  if (snapshot.data!.docs.isEmpty) {
+                                    return Container();
+                                  }
+                                  return Align(
+                                      alignment: Alignment.topLeft,
+                                      child: CircleAvatar(
+                                          backgroundColor: Colors.red,
+                                          radius: 9,
+                                          child: Text(
+                                            snapshot.data!.docs.length
+                                                .toString(),
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.white),
+                                          )));
+                                }),
+                          ]),
+                        ),
+                        IconButton(
+                          icon: Stack(
+                            children: const [
+                              Icon(
+                                Icons.chat_bubble_outline,
+                                size: 30,
+                              ),
+                              // Align(
+                              //   alignment: Alignment.topLeft,
+                              //   child: CircleAvatar(
+                              //     backgroundColor: Colors.red,
+                              //     radius: 9,
+                              //     child: Text(
+                              //       '',
+                              //       textAlign: TextAlign.center,
+                              //       overflow: TextOverflow.ellipsis,
+                              //       style: TextStyle(fontSize: 12, color: Colors.white),
+                              //     ),
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                          onPressed: () {
+                            Get.to(ChatsScreen());
+                          },
+                        ),
+                      ],
+                    ),
+                    forceElevated: true,
+
+                    // expandedHeight: 120,
+                  ),
+                  SliverAppBar(
+                    title: TabBar(
+                      labelColor: Colors.grey,
+                      tabs: [
+                        Tab(
+                          text: 'home',
+                        ),
+                        Tab(
+                          text: 'Family',
+                        ),
+                      ],
+                      overlayColor: MaterialStateProperty.all(Colors.green),
+                    ),
+                    actions: [],
+                    pinned: true,
+                  )
+                ];
+              },
+              body: TabBarView(
+                children: [PublicTab(), FamilyTab()],
+              )),
+        ),
+      ),
+    );
   }
 }

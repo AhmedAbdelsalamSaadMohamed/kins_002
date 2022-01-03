@@ -34,9 +34,9 @@ class Themes {
       onBackground: Colors.black26,
       //surface: Colors.white
     ),
-    scaffoldBackgroundColor: Colors.black54,
+    scaffoldBackgroundColor: Colors.black,
     appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.black26, foregroundColor: Colors.white),
+        backgroundColor: Colors.black, foregroundColor: Colors.white),
     iconTheme: const IconThemeData(color: Colors.white),
     buttonTheme: const ButtonThemeData(buttonColor: Colors.black26),
     elevatedButtonTheme: ElevatedButtonThemeData(
