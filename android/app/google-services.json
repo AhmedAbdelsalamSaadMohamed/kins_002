@@ -1,0 +1,93 @@
+{
+  "project_info": {
+    "project_number": "1042700768431",
+    "firebase_url": "https://kins-25271-default-rtdb.firebaseio.com",
+    "project_id": "kins-25271",
+    "storage_bucket": "kins-25271.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042700768431:android:24eb49d273a1e0c65cb05a",
+        "android_client_info": {
+          "package_name": "com.abdelsalam.kins_v002"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042700768431-1635cars2ccmragjlmaohfcj7nb3a7le.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abdelsalam.kins_v002",
+            "certificate_hash": "9240f59441a03f3e1f5221df722a953334f1ef51"
+          }
+        },
+        {
+          "client_id": "1042700768431-munq780h8d3emisqm7d6dm9je4op4jsd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.abdelsalam.kins_v002",
+            "certificate_hash": "e35362a1560acffaff669d6ec3cc72c906155936"
+          }
+        },
+        {
+          "client_id": "1042700768431-ndr66t80rgnrlhf5a6lr4110c8stjl5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnjDFLSPMtzGZhPb2cPo_0gV1AmP6XaFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1042700768431-ndr66t80rgnrlhf5a6lr4110c8stjl5j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042700768431:android:ddf11445c1a8aad55cb05a",
+        "android_client_info": {
+          "package_name": "com.example.kins_v002"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1042700768431-2tdsfpfp26h5ff8h3qljhjbfql2j35lk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kins_v002",
+            "certificate_hash": "e35362a1560acffaff669d6ec3cc72c906155936"
+          }
+        },
+        {
+          "client_id": "1042700768431-ndr66t80rgnrlhf5a6lr4110c8stjl5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnjDFLSPMtzGZhPb2cPo_0gV1AmP6XaFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1042700768431-ndr66t80rgnrlhf5a6lr4110c8stjl5j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

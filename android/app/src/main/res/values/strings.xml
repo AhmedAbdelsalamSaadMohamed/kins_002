@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">kins</string>
+    <string name="facebook_app_id">950385325552017</string>
+    <string name="fb_login_protocol_scheme">fb950385325552017</string>
+</resources>
