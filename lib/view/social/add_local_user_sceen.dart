@@ -12,17 +12,18 @@ class AddLocalUserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
-      appBar: CustomAppBarWidget.appBar(
-          title: 'Add Local $add', context: context),
-      body: UserFormWidget(user: user,),
-=======
       appBar:
           CustomAppBarWidget.appBar(title: 'Add Local $add', context: context),
       body: UserFormWidget(
         user: user,
       ),
->>>>>>> 2c5fbce (Initial commit)
+// =======
+//       appBar:
+//           CustomAppBarWidget.appBar(title: 'Add Local $add', context: context),
+//       body: UserFormWidget(
+//         user: user,
+//       ),
+// >>>>>>> 2c5fbce (Initial commit)
     );
   }
 }
