@@ -10,7 +10,12 @@ import 'utils_langs/translation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+          projectId: 'kins-25271',
+          apiKey: 'AIzaSyBnjDFLSPMtzGZhPb2cPo_0gV1AmP6XaFM',
+          messagingSenderId: '1042700768431',
+          appId: '1:1042700768431:android:24eb49d273a1e0c65cb05a'));
 
   runApp(const MyApp());
 }
