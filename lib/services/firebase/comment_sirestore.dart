@@ -36,13 +36,17 @@ class CommentFirestore {
             map: value.data() as Map<String, dynamic>, id: value.id));
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getCommentsStream() {
+  Stream<List<CommentModel>> getCommentsStream() {
     return FirebaseFirestore.instance
         .collection(tablePosts)
         .doc(postId)
         .collection(tableComments)
         .orderBy(fieldCommentTime)
-        .snapshots();
+        .snapshots()
+        .map((event) => [
+              ...event.docs
+                  .map((e) => CommentModel.formFire(map: e.data(), id: e.id))
+            ]);
   }
 
   Future<List<dynamic>> getCommentLovers(String commentId) async {

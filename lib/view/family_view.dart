@@ -4,8 +4,8 @@ import 'package:kins_v002/constant/const_colors.dart';
 import 'package:kins_v002/view_model/main_view_model.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
 
-class FamilyTab extends StatelessWidget {
-  const FamilyTab({Key? key}) : super(key: key);
+class FamilyView extends StatelessWidget {
+  const FamilyView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

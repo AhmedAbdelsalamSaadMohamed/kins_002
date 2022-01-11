@@ -2,9 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:kins_v002/constant/const_colors.dart';
 import 'package:kins_v002/model/user_model.dart';
 import 'package:kins_v002/services/firebase/post_firestore.dart';
+import 'package:kins_v002/view/screens/family_members_screen.dart';
+import 'package:kins_v002/view/screens/followers_page.dart';
 import 'package:kins_v002/view/screens/tree_screen.dart';
 import 'package:kins_v002/view/tree_widgets/tree_widget.dart';
 import 'package:kins_v002/view/widgets/custom_app_bar_widget.dart';
@@ -12,6 +13,7 @@ import 'package:kins_v002/view/widgets/custom_text.dart';
 import 'package:kins_v002/view/widgets/new_post_widget.dart';
 import 'package:kins_v002/view/widgets/post_widget.dart';
 import 'package:kins_v002/view/widgets/profile_circle_avatar.dart';
+import 'package:kins_v002/view_model/follow_view_model.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 
@@ -19,6 +21,7 @@ class ProfileScreen extends StatelessWidget {
   ProfileScreen({Key? key, required this.user}) : super(key: key);
   final UserModel user;
   final UserModel currentUser = Get.find<UserViewModel>().currentUser!;
+  final FollowViewModel _followViewModel = FollowViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,17 @@ class ProfileScreen extends StatelessWidget {
         'Get.find<UserViewModel>().allFamily.length   ${Get.find<UserViewModel>().allFamily.length}');
 
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: Container(
+            height: 40,
+            child: TextFormField(
+              decoration: InputDecoration(
+                  hintText: 'Search', suffixIcon: Icon(Icons.search)
+                  // border: UnderlineInputBorder(borderRadius: BorderRadius.circular(5))
+                  ),
+            ),
+          ),
+        ),
         body: FutureBuilder<Query>(
             future: PostFireStore().getUserPostsQuery(),
             builder: (context, snapshot) {
@@ -124,7 +137,6 @@ class ProfileScreen extends StatelessWidget {
               width: MediaQuery.of(context).size.width - (100 + 20 + 15),
               child: CustomText(
                 text: user.name ?? 'user',
-                color: primaryColor,
                 weight: FontWeight.bold,
                 size: 32,
               ),
@@ -140,7 +152,7 @@ class ProfileScreen extends StatelessWidget {
                   Text('Family Tree'.tr),
                   Icon(
                     Icons.account_tree_outlined,
-                    color: primaryColor,
+                    color: Theme.of(context).primaryColor,
                   )
                 ],
               ),
@@ -149,8 +161,51 @@ class ProfileScreen extends StatelessWidget {
                     ? Get.to(TreeScreen())
                     : _showTree(context, user);
               },
-            )
+            ),
+
+            ///follow button
+            user.id == currentUser.id!
+                ? Container()
+                : StreamBuilder<bool>(
+                    stream: _followViewModel.isFollowing(user.id!),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError || !snapshot.hasData) {
+                        return ActionChip(
+                          onPressed: () {},
+                          label: Text('      '),
+                        );
+                      }
+                      return ActionChip(
+                          label: Text(snapshot.data! ? 'Unfollow' : 'Follow'),
+                          onPressed: () {
+                            snapshot.data!
+                                ? _followViewModel.unFollow(userId: user.id!)
+                                : _followViewModel.follow(userId: user.id!);
+                          });
+                    }),
+
+            /// show followers
+            ActionChip(
+                label: Text('Followers'),
+                onPressed: () {
+                  Get.to(FollowersPage(initialIndex: 0));
+                }),
+            ActionChip(
+                label: Text('Followings'),
+                onPressed: () {
+                  Get.to(FollowersPage(initialIndex: 1));
+                }),
+
+            /// family members
+            ActionChip(
+                label: Text('Family Members'),
+                onPressed: () {
+                  Get.to(FamilyMembersScreen(),
+                      transition: Transition.downToUp);
+                })
           ],
+          spacing: 10,
+          alignment: WrapAlignment.center,
         ),
         NewPostWidget(),
       ],

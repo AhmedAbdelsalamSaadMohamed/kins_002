@@ -6,9 +6,7 @@ import 'package:video_player/video_player.dart';
 
 class VideoWidget extends StatefulWidget {
   VideoWidget({Key? key, this.url, this.file}) : super(key: key);
-
   String? url;
-
   File? file;
 
   @override
@@ -21,11 +19,12 @@ class _VideoWidgetState extends State<VideoWidget> {
   @override
   void initState() {
     super.initState();
+    VideoPlayerController _videoPlayerController = widget.url != null
+        ? VideoPlayerController.network(widget.url!)
+        : VideoPlayerController.file(widget.file!);
+
     flickManager = FlickManager(
-      videoPlayerController: widget.url != null
-          ? VideoPlayerController.network(widget.url!)
-          : VideoPlayerController.file(widget.file!),
-    );
+        videoPlayerController: _videoPlayerController, autoPlay: false);
   }
 
   @override

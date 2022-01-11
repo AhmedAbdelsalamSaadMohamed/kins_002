@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kins_v002/constant/constants.dart';
 import 'package:kins_v002/model/request_model.dart';
 import 'package:kins_v002/model/user_model.dart';
 import 'package:kins_v002/view/widgets/custom_app_bar_widget.dart';
@@ -25,8 +23,8 @@ class KinsTab extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBarWidget.appBar(title: 'Requests'.tr, context: context),
-      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          stream: RequestViewModel().getRequestsStream(),
+      body: StreamBuilder<List<RequestModel>>(
+          stream: RequestViewModel().getRequestsToMe(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
@@ -38,18 +36,18 @@ class KinsTab extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
-            snapshot.data!.docs.forEach((request) async {
-              UserModel user = (await userController
-                  .getUserFromFireStore(request[fieldRequestRelationId]))!;
-              if (!userController.allFamily.contains(user)) {
-                userController.getParents(user);
-                userController.getSons(user);
-              }
-            });
+            // snapshot.data!.forEach((request) async {
+            //   UserModel user = (await userController
+            //       .getUserFromFireStore(request.senderId!))!;
+            //
+            //   if (!userController.allFamily.contains(user)) {
+            //     userController.getParents(user);
+            //     userController.getSons(user);
+            //   }
+            // });
             return ListView(
               children: [
-                ...snapshot.data!.docs.map((e) => RequestWidget(
-                    request: RequestModel.fromFire(e.data(), e.id)))
+                ...snapshot.data!.map((e) => RequestWidget(request: e))
               ],
               //itemCount: snapshot.data!.docs.length,
               // itemBuilder: (context, index) {

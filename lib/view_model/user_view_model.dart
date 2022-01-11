@@ -168,7 +168,9 @@ class UserViewModel extends GetxController {
     dadDone = false;
     momDone = false;
     spouseDone = false;
-    loading = true;
+    loading = false;
+
+    /// re do to true
     update();
     print('upppppppppppppppppppdate');
 
@@ -179,16 +181,18 @@ class UserViewModel extends GetxController {
     //     length = allFamily.length, i++) {
     UserModel user = allFamily[0];
 
-    getParents(user).then((value) {
-      getSons(user).then((value) {});
-    });
-    getRequests().then((users) => users.forEach((user) {
-          print('xxxxxxxxxxxxxxxxx${user.id}xxxxxxxxxxxxxxxxxxxxxxxxx');
-          allFamily.add(user);
-          getParents(user).then((value) {
-            getSons(user).then((value) {});
-          });
-        }));
+    ///un comment
+    // getParents(user).then((value) {
+    //   getSons(user).then((value) {});
+    // });
+    // getRequests().then((users) => users.forEach((user) {
+    //       print('xxxxxxxxxxxxxxxxx${user.id}xxxxxxxxxxxxxxxxxxxxxxxxx');
+    //       allFamily.add(user);
+    //       getParents(user).then((value) {
+    //         getSons(user).then((value) {});
+    //       });
+    //     }));
+    ///to her
     // }
   }
 

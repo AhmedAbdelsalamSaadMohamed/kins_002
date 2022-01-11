@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:kins_v002/utils_langs/ar.dart';
-import 'package:kins_v002/utils_langs/en.dart';
+import 'package:kins_v002/utils/Languages/ar.dart';
+import 'package:kins_v002/utils/Languages/en.dart';
 
 class Translation extends Translations {
   @override

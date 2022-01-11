@@ -104,7 +104,7 @@ class RequestWidget extends StatelessWidget {
                         _showTree(
                             context,
                             (await userController
-                                .getUserFromFireStore(request.relationId!))!);
+                                .getUserFromFireStore(request.userId!))!);
                       },
                     ),
                   ];

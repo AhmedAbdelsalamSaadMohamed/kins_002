@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:kins_v002/constant/constants.dart';
-import 'package:kins_v002/model/notification_model.dart';
 import 'package:kins_v002/model/post_model.dart';
 import 'package:kins_v002/model/user_model.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
@@ -31,33 +30,77 @@ class PostFireStore {
   }
 
   lovePost(String postId) {
-    _postsReference.doc(postId).update({
-      fieldPostLovesIds: FieldValue.arrayUnion([currentUser.id])
-    }).then((value) {
-      getPostLovers(postId).then((value) {
-        value.forEach((userId) {
-          NotificationModel notifi = NotificationModel(
-            userId: userId,
-            postId: postId,
-            action: 'react',
-            relation: 'reacted',
-            time: Timestamp.now(),
-          );
-          FirebaseFirestore.instance
-              .collection(tableUsers)
-              .doc(userId)
-              .collection(collectionNotifications)
-              .add(notifi.toFire());
-        });
-      });
-    });
+    _postsReference
+        .doc(postId)
+        .collection(tablePostLoves)
+        .doc(currentUser.id)
+        .set({fieldId: currentUser.id});
+
+    // update({
+    //   fieldPostLovesIds: FieldValue.arrayUnion([currentUser.id])
+    // }).then((value) {
+    //   getPostLovers(postId).then((value) {
+    //     value.forEach((userId) {
+    //       NotificationModel notifi = NotificationModel(
+    //         userId: userId,
+    //         postId: postId,
+    //         action: 'react',
+    //         relation: 'reacted',
+    //         time: Timestamp.now(),
+    //       );
+    //       FirebaseFirestore.instance
+    //           .collection(tableUsers)
+    //           .doc(userId)
+    //           .collection(collectionNotifications)
+    //           .add(notifi.toFire());
+    //     });
+    //   });
+    // });
   }
 
   notLovePost(String postId) {
-    _postsReference.doc(postId).update({
-      fieldPostLovesIds: FieldValue.arrayRemove([currentUser.id])
-    });
+    _postsReference
+        .doc(postId)
+        .collection(tablePostLoves)
+        .doc(currentUser.id)
+        .delete();
+    // _postsReference.doc(postId).update({
+    //   fieldPostLovesIds: FieldValue.arrayRemove([currentUser.id])
+    // });
   }
+
+  Stream<List<String>> getPostLoversIds({required String postId}) {
+    return _postsReference
+        .doc(postId)
+        .collection(tablePostLoves)
+        .snapshots()
+        .map((event) => [...event.docs.map((e) => e.id)]);
+  }
+
+  Stream<int> getPostLoversCount({required String postId}) {
+    return _postsReference
+        .doc(postId)
+        .collection(tablePostLoves)
+        .snapshots()
+        .map((event) => event.docs.length);
+  }
+
+  Stream<bool> isLoverPost({required String postId}) {
+    return _postsReference
+        .doc(postId)
+        .collection(tablePostLoves)
+        .snapshots()
+        .map((event) =>
+            [...event.docs.map((e) => e.id)].contains(currentUser.id));
+  }
+
+  // Stream<int> lovesCount({required String postId}) {
+  //   return _postsReference
+  //       .doc(postId)
+  //       .collection(tablePostLoves)
+  //       .snapshots()
+  //       .map((event) => event.docs.length);
+  // }
 
   // Future<List<PostModel>?> getPosts() async {
   //   List<String> allFamily = <String>[

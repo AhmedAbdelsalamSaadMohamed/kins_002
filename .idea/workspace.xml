@@ -11,19 +11,35 @@
   <component name="ChangeListManager">
     <list default="true" id="07932ca9-8efe-485e-b81a-58d617b6992c" name="Default Changelist" comment="Initial commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/android/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/android/app/src/debug/AndroidManifest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/android/app/src/main/AndroidManifest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/android/app/src/profile/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/constant/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/constant/constants.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/constant/themes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/constant/themes.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/request_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/request_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services/firebase/comment_sirestore.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/firebase/comment_sirestore.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/services/firebase/post_firestore.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/firebase/post_firestore.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services/firebase/request_firestore.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/firebase/request_firestore.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils_langs/ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/languages/ar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils_langs/en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/languages/en.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils_langs/translation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/languages/translation.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/family_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/family_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/find_user_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/find_user_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/public_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/public_view.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view/screens/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/main_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view/screens/profile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/profile_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/view/screens/social_screen.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/view/social/home_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/social/home_tab.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/view/widgets/new_post_wiget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/new_post_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/social/add_local_user_sceen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/social/add_local_user_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/social/comments_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/social/comments_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/social/kins_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/social/kins_tab.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/tree_widgets/user_point_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/tree_widgets/user_point_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/widgets/custom_app_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/custom_app_bar_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view/widgets/post_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/post_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/widgets/request_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/request_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/widgets/video_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/video_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view_model/post_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/post_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view_model/request_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/request_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view_model/user_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/user_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +54,11 @@
         <option value="Dart File" />
       </list>
     </option>
+  </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="C:\Users\abdelsalam\upload-keystore.jks" />
+    <option name="KEY_ALIAS" value="upload" />
+    <option name="BUILD_TARGET_KEY" value="apk" />
   </component>
   <component name="Git.Settings">
     <option name="PREVIEW_PUSH_PROTECTED_ONLY" value="true" />
@@ -84,31 +105,36 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="AndroidRunProguardForReleaseBuild" value="false" />
+    <property name="ApkExportedModule" value="kins_v002" />
+    <property name="BundleExportedModule" value="kins_v002" />
+    <property name="ExportedApkPath" value="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\kins_v002.apk" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="io.flutter.reload.alreadyRun" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/android/app" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lib/view/screens" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.JSON" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\android\app" />
-      <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002" />
-      <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\assets\images" />
-      <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\assets\svg" />
+      <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\lib\view\screens" />
+      <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\lib\services\firebase" />
+      <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\lib\services\shared_preferences" />
+      <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\lib\view_model" />
+      <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\lib\utils" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\lib\utils\Languages" />
       <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\assets\icons" />
       <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\lib\view\screens" />
       <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\lib\view" />
       <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\lib\view\widgets" />
-      <recent name="A:\cources\Flutter\Andrea Bizzotto\Flutter_Firebase_Build_a_Complete_App\apps\kins_v002\lib\constant" />
     </key>
   </component>
   <component name="RunManager" selected="Flutter.main.dart">
@@ -124,8 +150,22 @@
       <option name="filePath" value="$PROJECT_DIR$/lib/view/widgets/video_widget.dart" />
       <method v="2" />
     </configuration>
+    <configuration name="gradlew" type="ShConfigurationType" temporary="true">
+      <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+      <option name="SCRIPT_PATH" value="$PROJECT_DIR$/android/gradlew" />
+      <option name="SCRIPT_OPTIONS" value="" />
+      <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+      <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$/android" />
+      <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+      <option name="INTERPRETER_PATH" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="EXECUTE_IN_TERMINAL" value="true" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Shell Script.gradlew" />
         <item itemvalue="Flutter.video_widget.dart" />
         <item itemvalue="Flutter.clip.dart" />
       </list>
@@ -301,7 +341,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641235009752</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Initial commit">
+      <created>1641252942472</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1641252942472</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -457,14 +504,9 @@
           <option name="timeStamp" value="64" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view/widgets/video_widget.dart</url>
-          <line>10</line>
-          <option name="timeStamp" value="65" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/user_view_model.dart</url>
-          <line>15</line>
-          <option name="timeStamp" value="66" />
+          <url>file://$PROJECT_DIR$/lib/services/firebase/follow_fireStore.dart</url>
+          <line>23</line>
+          <option name="timeStamp" value="70" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

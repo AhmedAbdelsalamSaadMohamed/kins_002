@@ -1,14 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kins_v002/constant/random_id.dart';
-import 'package:kins_v002/model/request_model.dart';
 import 'package:kins_v002/model/user_model.dart';
-import 'package:kins_v002/view/screens/add_user_screen.dart';
-import 'package:kins_v002/view/widgets/add_bottum_widget.dart';
 import 'package:kins_v002/view/widgets/custom_app_bar_widget.dart';
 import 'package:kins_v002/view/widgets/user_widget.dart';
-import 'package:kins_v002/view_model/request_view_model.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
 
 class FindUserTab extends StatelessWidget {
@@ -58,25 +52,25 @@ class FindUserTab extends StatelessWidget {
                   return UserWidget(
                     user: _userSearch,
                     icon: const Icon(Icons.add),
-                    // add: add,
-                    // defaultUserId: user.id!,
                     onPressed: () {
-                      String newId = RandomId().getId(25);
-                      user.id = newId;
-                      user.name = _userSearch.name;
-                      user.gender = _userSearch.gender;
-                      user.profile = _userSearch.profile;
-                      user.link = _userSearch.id;
-                      RequestViewModel().addRequest(RequestModel(
-                          senderId: userController.currentUser!.id,
-                          userId: _userSearch.id,
-                          relationId: newId,
-                          time: Timestamp.now()));
-                      print('ggggggggggggggggg/' + user.id.toString());
-                      Get.off(AddUserScreen(
-                        add: add,
-                        user: user,
-                      ));
+                      /// un comment
+                      // String newId = RandomId().getId(25);
+                      // user.id = newId;
+                      // user.name = _userSearch.name;
+                      // user.gender = _userSearch.gender;
+                      // user.profile = _userSearch.profile;
+                      // user.link = _userSearch.id;
+                      // RequestViewModel().addRequest(RequestModel(
+                      //     senderId: userController.currentUser!.id,
+                      //     userId: _userSearch.id,
+                      //     relation: newId,
+                      //     time: Timestamp.now())
+                      // );
+                      // print('ggggggggggggggggg/' + user.id.toString());
+                      // Get.off(AddUserScreen(
+                      //   add: add,
+                      //   user: user,
+                      // ));
                     },
                   );
                 },
@@ -85,14 +79,14 @@ class FindUserTab extends StatelessWidget {
           )
         ],
       ),
-      bottomSheet: AddButtonWidget(
-          title: 'Skip.. Can\'t find $add',
-          onPressed: () {
-            Get.off(AddUserScreen(
-              add: add,
-              user: user,
-            ));
-          }),
+      // bottomSheet: AddButtonWidget(
+      //     title: 'Skip.. Can\'t find $add',
+      //     onPressed: () {
+      //       Get.off(AddUserScreen(
+      //         add: add,
+      //         user: user,
+      //       ));
+      //     }),
     );
   }
 }

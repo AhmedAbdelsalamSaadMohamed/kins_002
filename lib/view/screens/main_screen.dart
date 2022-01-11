@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:kins_v002/constant/const_colors.dart';
 import 'package:kins_v002/controllers/local_tree_controller.dart';
 import 'package:kins_v002/services/firebase/notification_firestore.dart';
-import 'package:kins_v002/view/family_tab.dart';
-import 'package:kins_v002/view/public_tab.dart';
+import 'package:kins_v002/view/family_view.dart';
+import 'package:kins_v002/view/public_view.dart';
 import 'package:kins_v002/view/screens/profile_screen.dart';
 import 'package:kins_v002/view/social/notifications_tab.dart';
 import 'package:kins_v002/view/widgets/custom_text.dart';
@@ -26,70 +26,7 @@ class MainScreen extends StatelessWidget {
         .getAllUsers();
     return SafeArea(
       child: Scaffold(
-        endDrawer: Drawer(
-          child: ListView(
-            // mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ListTile(
-                leading: ProfileCircleAvatar(
-                    imageUrl: userController.currentUser!.profile!,
-                    radius: 20,
-                    gender: userController.currentUser!.gender),
-                title: CustomText(
-                  text: userController.currentUser!.name!,
-                ),
-                onTap: () =>
-                    Get.to(ProfileScreen(user: userController.currentUser!)),
-              ),
-              Divider(),
-              GetBuilder(
-                  init: Get.find<UserViewModel>(),
-                  builder: (controller) {
-                    return ListTile(
-                      title: Text('Dark Mode'.tr),
-                      trailing: Switch(
-                          value: userController.darkMode,
-                          onChanged: (value) {
-                            userController.setDarkMode(value);
-                          }),
-                    );
-                  }),
-              GetBuilder(
-                  init: Get.find<UserViewModel>(),
-                  builder: (controller) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: DropdownButton<String>(
-                          value: userController.language,
-                          onChanged: (value) {
-                            userController.setLanguage(value!);
-                          },
-                          items: [
-                            DropdownMenuItem(
-                              child: Text('English'),
-                              value: 'en',
-                            ),
-                            DropdownMenuItem(
-                              child: Text('العربيه'),
-                              value: 'ar',
-                            )
-                          ]),
-                    );
-                  }),
-              ListTile(
-                title: Text('Settings'.tr),
-                trailing: const Icon(Icons.settings),
-                onTap: () {},
-              ),
-              const Divider(),
-              ListTile(
-                title: Text('Sign Out'.tr),
-                trailing: const Icon(Icons.logout),
-                onTap: () => Get.put(AuthViewModel()).signOut(),
-              ),
-            ],
-          ),
-        ),
+        endDrawer: _drawer(),
         body: DefaultTabController(
           length: 2,
           child: NestedScrollView(
@@ -163,19 +100,6 @@ class MainScreen extends StatelessWidget {
                                 Icons.chat_bubble_outline,
                                 size: 30,
                               ),
-                              // Align(
-                              //   alignment: Alignment.topLeft,
-                              //   child: CircleAvatar(
-                              //     backgroundColor: Colors.red,
-                              //     radius: 9,
-                              //     child: Text(
-                              //       '',
-                              //       textAlign: TextAlign.center,
-                              //       overflow: TextOverflow.ellipsis,
-                              //       style: TextStyle(fontSize: 12, color: Colors.white),
-                              //     ),
-                              //   ),
-                              // ),
                             ],
                           ),
                           onPressed: () {
@@ -185,8 +109,6 @@ class MainScreen extends StatelessWidget {
                       ],
                     ),
                     forceElevated: true,
-
-                    // expandedHeight: 120,
                   ),
                   SliverAppBar(
                     title: TabBar(
@@ -207,9 +129,75 @@ class MainScreen extends StatelessWidget {
                 ];
               },
               body: TabBarView(
-                children: [PublicTab(), FamilyTab()],
+                children: [PublicView(), FamilyView()],
               )),
         ),
+      ),
+    );
+  }
+
+  Widget _drawer() {
+    return Drawer(
+      child: ListView(
+        children: [
+          ListTile(
+            leading: ProfileCircleAvatar(
+                imageUrl: userController.currentUser!.profile!,
+                radius: 20,
+                gender: userController.currentUser!.gender),
+            title: CustomText(
+              text: userController.currentUser!.name!,
+            ),
+            onTap: () =>
+                Get.to(ProfileScreen(user: userController.currentUser!)),
+          ),
+          Divider(),
+          GetBuilder(
+              init: Get.find<UserViewModel>(),
+              builder: (controller) {
+                return ListTile(
+                  title: Text('Dark Mode'.tr),
+                  trailing: Switch(
+                      value: userController.darkMode,
+                      onChanged: (value) {
+                        userController.setDarkMode(value);
+                      }),
+                );
+              }),
+          GetBuilder(
+              init: Get.find<UserViewModel>(),
+              builder: (controller) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: DropdownButton<String>(
+                      value: userController.language,
+                      onChanged: (value) {
+                        userController.setLanguage(value!);
+                      },
+                      items: [
+                        DropdownMenuItem(
+                          child: Text('English'),
+                          value: 'en',
+                        ),
+                        DropdownMenuItem(
+                          child: Text('العربيه'),
+                          value: 'ar',
+                        )
+                      ]),
+                );
+              }),
+          ListTile(
+            title: Text('Settings'.tr),
+            trailing: const Icon(Icons.settings),
+            onTap: () {},
+          ),
+          const Divider(),
+          ListTile(
+            title: Text('Sign Out'.tr),
+            trailing: const Icon(Icons.logout),
+            onTap: () => Get.put(AuthViewModel()).signOut(),
+          ),
+        ],
       ),
     );
   }

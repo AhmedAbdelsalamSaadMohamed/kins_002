@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kins_v002/constant/themes.dart';
+import 'package:kins_v002/utils/Languages/translation.dart';
+import 'package:kins_v002/utils/themes/dark_theme.dart';
+import 'package:kins_v002/utils/themes/light_theme.dart';
 import 'package:kins_v002/view/screens/main_screen.dart';
 import 'package:kins_v002/view/screens/sign_in_screen.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
-
-import 'utils_langs/translation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
                       ? snapshot.data!
                       : userController.language),
                   fallbackLocale: const Locale('en'),
-                  theme: userController.darkMode ? Themes.dark : Themes.light,
+                  theme: userController.darkMode ? darkTheme : lightTheme,
                   home: userController.loading
                       ? const Scaffold(
                           body: Center(

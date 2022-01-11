@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -47,17 +46,14 @@ class CommentsScreen extends StatelessWidget {
                   PostWidget(
                     postId: postId,
                   ),
-                  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  StreamBuilder<List<CommentModel>>(
                       stream:
                           CommentFirestore(postId: postId).getCommentsStream(),
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return Container();
                         }
-                        List<CommentModel> comments = [
-                          ...snapshot.data!.docs.map((e) =>
-                              CommentModel.formFire(map: e.data(), id: e.id))
-                        ];
+                        List<CommentModel> comments = snapshot.data!;
                         return Column(
                           children: [
                             ...comments.map((e) => Column(

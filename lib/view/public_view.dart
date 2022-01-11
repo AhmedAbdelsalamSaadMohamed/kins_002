@@ -5,8 +5,8 @@ import 'package:kins_v002/view/widgets/new_post_widget.dart';
 import 'package:kins_v002/view/widgets/post_widget.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 
-class PublicTab extends StatelessWidget {
-  PublicTab({Key? key}) : super(key: key);
+class PublicView extends StatelessWidget {
+  PublicView({Key? key}) : super(key: key);
   final Query query = PostFireStore().getPublicPostsQuery();
 
   @override
@@ -34,10 +34,11 @@ class PublicTab extends StatelessWidget {
         },
         query: query,
         itemBuilderType: PaginateBuilderType.listView,
-        itemsPerPage: 4,
+        itemsPerPage: 15,
         padding: const EdgeInsets.only(bottom: 150),
         emptyDisplay: NewPostWidget(),
         shrinkWrap: true,
+        pageController: PageController(keepPage: true),
       ),
     );
   }

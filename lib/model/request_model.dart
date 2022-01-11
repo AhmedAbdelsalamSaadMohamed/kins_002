@@ -5,23 +5,24 @@ class RequestModel {
   String? id;
   String? senderId;
   String? userId;
-  String? relationId;
+  Relations? relation;
   Timestamp? time;
 
-  RequestModel(
-      {this.id, this.senderId, this.userId, this.relationId, this.time});
+  RequestModel({this.id, this.senderId, this.userId, this.relation, this.time});
 
   RequestModel.fromFire(Map<String, dynamic> map, this.id)
       : senderId = map[fieldRequestSenderId],
         userId = map[fieldRequestUserId],
-        relationId = map[fieldRequestRelationId],
+        relation = Relations.values.firstWhere(
+            (element) => element.name == map[fieldRequestRelationId]),
         time = map[fieldRequestTime];
 
-  Map<String, dynamic> toFire() => {
+  Map<String, dynamic> toFire() =>
+      {
         fieldRequestId: id,
         fieldRequestSenderId: senderId,
         fieldRequestUserId: userId,
-        fieldRequestRelationId: relationId,
+        fieldRequestRelationId: relation!.name,
         fieldRequestTime: time
       };
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kins_v002/constant/constants.dart';
@@ -6,7 +5,6 @@ import 'package:kins_v002/controllers/local_tree_controller.dart';
 import 'package:kins_v002/model/user_model.dart';
 import 'package:kins_v002/view/find_user_screen.dart';
 import 'package:kins_v002/view/screens/edit_user_screen.dart';
-import 'package:kins_v002/view/social/add_local_user_sceen.dart';
 import 'package:kins_v002/view/tree_widgets/add_widget.dart';
 import 'package:kins_v002/view/tree_widgets/tree_widget.dart';
 import 'package:kins_v002/view/widgets/custom_app_bar_widget.dart';
@@ -21,31 +19,31 @@ class UserPointWidget extends StatelessWidget {
       required this.treeType,
       this.isTreeOwner = false});
 
-  String id, treeType;
+  final String id, treeType;
+  final bool isTreeOwner;
+  final LocalTreeController localController = Get.find<LocalTreeController>();
+  final UserViewModel controller = Get.find<UserViewModel>();
   late UserModel user;
-  bool isTreeOwner;
-  LocalTreeController localController = Get.find<LocalTreeController>();
-  UserViewModel controller = Get.find<UserViewModel>();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: UserViewModel().getUserFromFireStore(id),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.hasError || !snapshot.hasData) {
             return GestureDetector(
-              onDoubleTap: () => _showTree(context, user),
               child: Container(
                 key: key,
                 width: 0.0 + userPointWidth,
                 height: 0.0 + userPointHeight,
-                color: Colors.black87,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        width: isTreeOwner ? 2 : 1,
+                        color: Theme.of(context).colorScheme.secondary),
+                    borderRadius: BorderRadius.circular(5)),
               ),
             );
           }
-          // if(!snapshot.hasData || snapshot.hasError ){
-          //   return Center(child: CircularProgressIndicator(),);
-          // }
           {
             user = snapshot.data as UserModel;
             return Column(
@@ -378,7 +376,7 @@ class UserPointWidget extends StatelessWidget {
         user: user,
       ));
     } else {
-      Get.off(AddLocalUserScreen(add: add, user: user));
+      //Get.off(AddLocalUserScreen(add: add, user: user));
     }
   }
 

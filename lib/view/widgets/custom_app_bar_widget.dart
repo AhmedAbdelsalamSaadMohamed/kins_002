@@ -5,7 +5,7 @@ import 'package:share/share.dart';
 class CustomAppBarWidget {
   CustomAppBarWidget();
 
-  static const double appBarHeight = 80;
+  static const double appBarHeight = 70;
 
   static AppBar appBar(
       {required String title,

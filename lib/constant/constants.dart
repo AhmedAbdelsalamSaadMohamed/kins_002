@@ -16,6 +16,20 @@ const String fieldMom = 'mom';
 const String fieldSpouse = 'spouse';
 const String fieldProfile = 'profile';
 const String fieldLink = 'link';
+
+/// family
+const String collectionFamily = 'family';
+const String fieldKinId = 'kin_id';
+
+/// followings
+const String collectionFollowings = 'followings';
+const String fieldFollowingId = 'following_id';
+const String fieldFollowingNotify = 'following_notify';
+
+/// followers
+const String collectionFollowers = 'followers';
+const String fieldFollowerId = 'follower_id';
+
 /////////////////////////////////////////////////////////////////////
 
 const String listSons = 'sons';
@@ -39,6 +53,10 @@ const String fieldPostLovesIds = 'post_loves_ids';
 // const String fieldPostAngriesIds = 'post_angries_ids';
 // const String fieldPostCaresIds = 'post_cares_ids';
 const String fieldPostTime = 'post_time';
+
+/// post loves
+const String tablePostLoves = 'post_loves';
+
 //////////////////////////////////////////////////////////////
 /// for Comments
 ///
@@ -99,12 +117,32 @@ const String fieldNotificationTime = 'time';
 
 ///   requests
 ///
-const String collectionRequests = 'requests';
+const String collectionRequestsFromMe = 'requests_from_me';
+const String collectionRequestsToMe = 'requests_to_me';
 const String fieldRequestId = 'id';
 const String fieldRequestSenderId = 'sender';
 const String fieldRequestUserId = 'user';
 const String fieldRequestRelationId = 'relation';
 const String fieldRequestTime = 'time';
+
+/// //////////////////////
+/// relations
+enum Relations {
+  myDad,
+  myMom,
+  mySon,
+  myDaughter,
+  myHusband,
+  myWife,
+  myBrother,
+  mySister,
+  myMaternalUncle,
+  myUncle,
+  myMaternalAunt,
+  myAunt,
+  myGrandFather,
+  myGrandMother,
+}
 
 const months = [
   'January',
