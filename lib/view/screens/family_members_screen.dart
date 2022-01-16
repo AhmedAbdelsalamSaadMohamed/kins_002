@@ -1,62 +1,169 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:kins_v002/constant/constants.dart';
-import 'package:kins_v002/model/request_model.dart';
 import 'package:kins_v002/model/user_model.dart';
-import 'package:kins_v002/view/screens/profile_screen.dart';
+import 'package:kins_v002/view/screens/relations_page.dart';
+import 'package:kins_v002/view/screens/requests_from_me_page.dart';
+import 'package:kins_v002/view/screens/requests_to_me_page.dart';
+import 'package:kins_v002/view/screens/user_screen.dart';
 import 'package:kins_v002/view/widgets/profile_circle_avatar.dart';
 import 'package:kins_v002/view_model/family_view_model.dart';
 import 'package:kins_v002/view_model/follow_view_model.dart';
 import 'package:kins_v002/view_model/request_view_model.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
 
-class FamilyMembersScreen extends StatelessWidget {
+class FamilyMembersScreen extends StatefulWidget {
   FamilyMembersScreen({Key? key}) : super(key: key);
+  int currentTab = 0;
+
+  @override
+  State<FamilyMembersScreen> createState() => _FamilyMembersScreenState();
+}
+
+class _FamilyMembersScreenState extends State<FamilyMembersScreen> {
   final FamilyViewModel _familyViewModel = FamilyViewModel();
   final UserModel currentUser = Get.find<UserViewModel>().currentUser!;
+  PageController _pageController = PageController(keepPage: true);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-          appBar: AppBar(
-            title: Text("Family"),
-            bottom: TabBar(
-              tabs: [
-                StreamBuilder<int>(
-                    stream: _familyViewModel.getFamilyCount(
-                        userId: currentUser.id!),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError || !snapshot.hasData) {
-                        return Tab(
-                          text: '${snapshot.data} ' + 'Kins',
-                        );
-                      }
-                      return Tab(
-                        text: '${snapshot.data} ' + 'Kins'.tr,
-                      );
-                    }),
-                Tab(
-                  text: 'Suggested'.tr,
-                ),
-              ],
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              familyTab(),
-              suggestedTab(),
-            ],
-          )),
+        body: SafeArea(
+          child: NestedScrollView(
+              headerSliverBuilder:
+                  (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    title: Text("Family"),
+                  ),
+                  SliverAppBar(
+                    pinned: true,
+                    automaticallyImplyLeading: false,
+                    toolbarHeight: 100,
+                    flexibleSpace: Wrap(
+                      children: [
+                        CustomActionChip(
+                          label: StreamBuilder<int>(
+                              stream: _familyViewModel.getRealFamilyCount(
+                                  userId: currentUser.id!),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError || !snapshot.hasData) {
+                                  return Text(
+                                    '${snapshot.data} ' + 'Kins',
+                                  );
+                                }
+                                return Text(
+                                  '${snapshot.data} ' + 'Kins'.tr,
+                                );
+                              }),
+                          onPressed: () {
+                            setState(() {
+                              widget.currentTab = 0;
+                            });
+                          },
+                          pageController: _pageController,
+                          index: 0,
+                          currentTab: widget.currentTab,
+                        ),
+                        CustomActionChip(
+                          label: Text('Suggested'.tr),
+                          onPressed: () {
+                            setState(() {
+                              widget.currentTab = 1;
+                            });
+                          },
+                          pageController: _pageController,
+                          index: 1,
+                          currentTab: widget.currentTab,
+                        ),
+                        StreamBuilder<int>(
+                            stream: RequestViewModel().getRequestsFromMeCount(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError || !snapshot.hasData) {
+                                return CustomActionChip(
+                                    label: Text('  ' + 'Requests From Me'),
+                                    index: 2,
+                                    currentTab: widget.currentTab,
+                                    pageController: _pageController,
+                                    onPressed: () {
+                                      setState(() {
+                                        widget.currentTab = 2;
+                                      });
+                                    });
+                              }
+                              return CustomActionChip(
+                                  label: Text(snapshot.data.toString() +
+                                      ' ' +
+                                      'Requests From Me'),
+                                  index: 2,
+                                  currentTab: widget.currentTab,
+                                  pageController: _pageController,
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.currentTab = 2;
+                                    });
+                                  });
+                            }),
+                        StreamBuilder<int>(
+                            stream: RequestViewModel().getRequestsToMeCount(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError || !snapshot.hasData) {
+                                return CustomActionChip(
+                                    label: Text('  ' + 'Requests To Me'),
+                                    index: 3,
+                                    currentTab: widget.currentTab,
+                                    pageController: _pageController,
+                                    onPressed: () {
+                                      setState(() {
+                                        widget.currentTab = 3;
+                                      });
+                                    });
+                              }
+                              return CustomActionChip(
+                                  label: Text(snapshot.data!.toString() +
+                                      ' ' +
+                                      'Requests To Me'),
+                                  index: 3,
+                                  currentTab: widget.currentTab,
+                                  pageController: _pageController,
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.currentTab = 3;
+                                    });
+                                  });
+                            }),
+                      ],
+                      spacing: 8,
+                    ),
+                  )
+                ];
+              },
+              body: PageView(
+                children: [
+                  familyTab(),
+                  suggestedTab(),
+                  RequestsFromMePage(),
+                  RequestsToMePage(),
+                ],
+                controller: _pageController,
+                onPageChanged: (value) {
+                  setState(() {
+                    widget.currentTab = value;
+                  });
+                },
+              )),
+        ),
+      ),
     );
   }
 
   Widget familyTab() {
     return Tab(
       child: StreamBuilder<List<Future<UserModel?>>>(
-        stream: FamilyViewModel().getUserFamily(userId: currentUser.id!),
+        stream: FamilyViewModel().getUserRealFamily(userId: currentUser.id!),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -78,45 +185,43 @@ class FamilyMembersScreen extends StatelessWidget {
   }
 
   Widget suggestedTab() {
-    return Tab(
-      child: StreamBuilder<Stream<Stream<Stream<List<UserModel>>>>>(
-          stream: _familyViewModel.getAllSuggestedKins(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError || !snapshot.hasData) {
-              return Container();
-            }
-            // List<UserModel> suggestedUsers = snapshot.data!;
-            return StreamBuilder<Stream<Stream<List<UserModel>>>>(
-                stream: snapshot.data!,
-                builder: (context, snapshot) {
-                  if (snapshot.hasError || !snapshot.hasData) {
-                    return Container();
-                  }
-                  return StreamBuilder<Stream<List<UserModel>>>(
-                      stream: snapshot.data!,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError || !snapshot.hasData) {
-                          return Container();
-                        }
-                        return StreamBuilder<List<UserModel>>(
-                            stream: snapshot.data!,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasError || !snapshot.hasData) {
-                                return Container();
-                              }
-                              List<UserModel> suggestedUsers = snapshot.data!;
-                              return ListView.builder(
-                                itemCount: suggestedUsers.length,
-                                itemBuilder: (context, index) {
-                                  return SuggestedWidget(
-                                      user: suggestedUsers[index]);
-                                },
-                              );
-                            });
-                      });
-                });
-          }),
-    );
+    return StreamBuilder<Stream<Stream<Stream<List<UserModel>>>>>(
+        stream: _familyViewModel.getAllSuggestedKins(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError || !snapshot.hasData) {
+            return Container();
+          }
+          // List<UserModel> suggestedUsers = snapshot.data!;
+          return StreamBuilder<Stream<Stream<List<UserModel>>>>(
+              stream: snapshot.data!,
+              builder: (context, snapshot) {
+                if (snapshot.hasError || !snapshot.hasData) {
+                  return Container();
+                }
+                return StreamBuilder<Stream<List<UserModel>>>(
+                    stream: snapshot.data!,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError || !snapshot.hasData) {
+                        return Container();
+                      }
+                      return StreamBuilder<List<UserModel>>(
+                          stream: snapshot.data!,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError || !snapshot.hasData) {
+                              return Container();
+                            }
+                            List<UserModel> suggestedUsers = snapshot.data!;
+                            return ListView.builder(
+                              itemCount: suggestedUsers.length,
+                              itemBuilder: (context, index) {
+                                return SuggestedWidget(
+                                    user: suggestedUsers[index]);
+                              },
+                            );
+                          });
+                    });
+              });
+        });
   }
 }
 
@@ -151,7 +256,7 @@ class KinWidget extends StatelessWidget {
               title: Text(user.name ?? ''),
               subtitle: Text(user.token ?? ''),
               onTap: () {
-                Get.to(ProfileScreen(
+                Get.to(UserScreen(
                   user: user,
                 ));
               },
@@ -185,109 +290,33 @@ class SuggestedWidget extends StatelessWidget {
   }
 }
 
-class RelationsPage extends StatelessWidget {
-  const RelationsPage({Key? key, required this.user}) : super(key: key);
-  final UserModel user;
+class CustomActionChip extends StatelessWidget {
+  const CustomActionChip(
+      {Key? key,
+      required this.label,
+      required this.pageController,
+      required this.index,
+      required this.currentTab,
+      required this.onPressed})
+      : super(key: key);
+  final Widget label;
+  final int index, currentTab;
+  final PageController pageController;
+  final Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Select the relation'),
-      ),
-      body: ListView(
-        children: [
-          ...(user.gender == "male"
-              ? [
-                  _relation(relation: Relations.myDad),
-                  _relation(relation: Relations.myBrother),
-                  _relation(relation: Relations.mySon),
-                  _relation(relation: Relations.myMaternalUncle),
-                  _relation(relation: Relations.myUncle),
-                  _relation(relation: Relations.myGrandFather),
-                ]
-              : [
-                  _relation(relation: Relations.myMom),
-                  _relation(relation: Relations.mySister),
-                  _relation(relation: Relations.myDaughter),
-                  _relation(relation: Relations.myMaternalAunt),
-                  _relation(relation: Relations.myAunt),
-                  _relation(relation: Relations.myGrandMother),
-                ])
-        ],
-      ),
-    );
-  }
-
-  Widget _relation({required Relations relation}) {
-    final String currentUserId = Get.find<UserViewModel>().currentUser!.id!;
-    return ListTile(
-      leading: ProfileCircleAvatar(
-        imageUrl: user.profile,
-        radius: 20,
-        gender: user.gender,
-      ),
-      title: Text(user.name ?? ' '),
-      subtitle: Text(_getText(relation)),
-      trailing: Icon(Icons.keyboard_arrow_right_rounded),
-      onTap: () {
-        RequestViewModel().addRequest(RequestModel(
-          senderId: currentUserId,
-          userId: user.id!,
-          relation: relation,
-          time: Timestamp.now(),
-        ));
-        Get.back();
+    return ActionChip(
+      label: label,
+      onPressed: () {
+        pageController.jumpToPage(
+          index,
+          // duration: Duration(microseconds: 1), curve: Curves.ease
+        );
+        onPressed();
       },
+      labelStyle:
+          currentTab == index ? TextStyle(color: Colors.red) : TextStyle(),
     );
-  }
-
-  String _getText(Relations relation) {
-    String text;
-    switch (relation) {
-      case Relations.myDad:
-        text = 'My dad';
-        break;
-      case Relations.myMom:
-        text = 'My mom';
-        break;
-      case Relations.mySon:
-        text = 'My son';
-        break;
-      case Relations.myDaughter:
-        text = 'My son';
-        break;
-      case Relations.myHusband:
-        text = 'My husband';
-        break;
-      case Relations.myWife:
-        text = 'My wife';
-        break;
-      case Relations.myBrother:
-        text = 'My brother';
-        break;
-      case Relations.mySister:
-        text = 'My sister';
-        break;
-      case Relations.myMaternalUncle:
-        text = 'My maternal uncle';
-        break;
-      case Relations.myUncle:
-        text = 'My uncle';
-        break;
-      case Relations.myMaternalAunt:
-        text = 'My maternal aunt';
-        break;
-      case Relations.myAunt:
-        text = 'My aunt';
-        break;
-      case Relations.myGrandFather:
-        text = 'My grandfather';
-        break;
-      case Relations.myGrandMother:
-        text = 'My grandmother';
-        break;
-    }
-    return text;
   }
 }

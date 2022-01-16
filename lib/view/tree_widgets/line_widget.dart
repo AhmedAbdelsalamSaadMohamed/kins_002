@@ -13,7 +13,7 @@ class LineWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipPath(
-      child: Container(color: Colors.blue),
+      child: Container(color: Theme.of(context).colorScheme.secondary),
       clipper: MyCustomClipper(_startX, _startY, _endX, _endY),
     );
   }
@@ -29,8 +29,8 @@ class MyCustomClipper extends CustomClipper<Path> {
     Path path = Path();
     path.lineTo(startX, startY);
     path.lineTo(endX, endY);
-    path.lineTo(endX + 2, endY + 2);
-    path.lineTo(startX + 2, startY + 2);
+    path.lineTo(endX + 1, endY + 1);
+    path.lineTo(startX + 1, startY + 1);
     path.lineTo(startX, startY);
 
     return path;

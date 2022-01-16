@@ -7,15 +7,33 @@ class FamilyFireStore {
   String currentUserId = Get.find<UserViewModel>().currentUser!.id!;
 
   Future addToFamily({required String userId}) async {
+    /// to me
+    await FirebaseFirestore.instance
+        .collection(tableUsers)
+        .doc(currentUserId)
+        .collection(collectionFamily)
+        .doc(userId)
+        .set({fieldId: currentUserId});
+
+    /// to user
     await FirebaseFirestore.instance
         .collection(tableUsers)
         .doc(userId)
         .collection(collectionFamily)
         .doc(currentUserId)
-        .set({fieldId: currentUserId});
+        .set({fieldId: userId});
   }
 
   Future RemoveFromFamily({required String userId}) async {
+    /// from me
+    await FirebaseFirestore.instance
+        .collection(tableUsers)
+        .doc(currentUserId)
+        .collection(collectionFamily)
+        .doc(userId)
+        .delete();
+
+    /// to user
     await FirebaseFirestore.instance
         .collection(tableUsers)
         .doc(userId)

@@ -34,7 +34,7 @@ class SignInButtonWidget extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 child: CustomText(
                   text: title,
-                  size: 24,
+                  size: 20,
                   color: primaryColor,
                 ),
               ),

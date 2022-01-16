@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:kins_v002/view/screens/family_members_screen.dart';
 import 'package:kins_v002/view/screens/map_screen.dart';
 import 'package:kins_v002/view/screens/tree_screen.dart';
 import 'package:kins_v002/view/social/home_tab.dart';
-import 'package:kins_v002/view/social/kins_tab.dart';
 
 class MainViewModel extends GetxController {
   int navigatorValue = 0;
@@ -25,7 +25,7 @@ class MainViewModel extends GetxController {
         update();
         break;
       case 3:
-        currentScreen = KinsTab();
+        currentScreen = FamilyMembersScreen();
         update();
         break;
     }

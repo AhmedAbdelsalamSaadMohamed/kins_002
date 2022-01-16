@@ -5,10 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:kins_v002/model/post_model.dart';
 import 'package:kins_v002/model/user_model.dart';
 import 'package:kins_v002/view/screens/profile_screen.dart';
+import 'package:kins_v002/view/screens/user_screen.dart';
 import 'package:kins_v002/view/social/comments_screen.dart';
 import 'package:kins_v002/view/widgets/custom_image_network.dart';
 import 'package:kins_v002/view/widgets/custom_text.dart';
-import 'package:kins_v002/view/widgets/image_galery_widget.dart';
+import 'package:kins_v002/view/widgets/image_galery.dart';
 import 'package:kins_v002/view/widgets/profile_circle_avatar.dart';
 import 'package:kins_v002/view/widgets/video_widget.dart';
 import 'package:kins_v002/view_model/post_view_model.dart';
@@ -54,11 +55,9 @@ class PostWidget extends StatelessWidget {
                                 radius: 20,
                                 gender: postOwner.gender),
                             onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => ImageGalleryWidget(
-                                    images: [postOwner.profile.toString()]),
-                              );
+                              showImagesGallery(
+                                  images: [postOwner.profile.toString()],
+                                  initial: 0);
                             },
                           ),
                         ),
@@ -82,8 +81,11 @@ class PostWidget extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              onTap: () =>
-                                  Get.to(ProfileScreen(user: postOwner)),
+                              onTap: () => currentUser.id == postOwner.id
+                                  ? Get.to(ProfileScreen(),
+                                      transition: Transition.leftToRight)
+                                  : Get.to(UserScreen(user: postOwner),
+                                      transition: Transition.leftToRight),
                             ),
                             Text(
                               post.postTime == null
@@ -130,31 +132,41 @@ class PostWidget extends StatelessWidget {
               Container(
                   child: (post.imagesUrls == null || post.imagesUrls!.isEmpty)
                       ? null
-                      : GestureDetector(
-                          onTap: () {
-                            showGallery(post, context);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Wrap(
-                              direction: Axis.horizontal,
-                              alignment: WrapAlignment.start,
-                              crossAxisAlignment: WrapCrossAlignment.start,
-                              children: [
-                                ...post.imagesUrls!.map((e) {
-                                  if (count++ == 0 && post.videoUrl == null) {
-                                    return CustomImageNetwork(src: e);
-                                  } else {
-                                    return Container(
-                                      height: 100,
-                                      width: 100,
-                                      padding: const EdgeInsets.all(8),
+                      : Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Wrap(
+                            direction: Axis.horizontal,
+                            alignment: WrapAlignment.start,
+                            crossAxisAlignment: WrapCrossAlignment.start,
+                            children: [
+                              ...post.imagesUrls!.map((e) {
+                                if (count++ == 0 && post.videoUrl == null) {
+                                  return GestureDetector(
+                                    child: CustomImageNetwork(src: e),
+                                    onTap: () {
+                                      showImagesGallery(
+                                          images: [...?post.imagesUrls],
+                                          initial: post.imagesUrls!.indexOf(e));
+                                    },
+                                  );
+                                } else {
+                                  return Container(
+                                    height: 100,
+                                    width: 100,
+                                    padding: const EdgeInsets.all(8),
+                                    child: GestureDetector(
                                       child: CustomImageNetwork(src: e),
-                                    );
-                                  }
-                                })
-                              ],
-                            ),
+                                      onTap: () {
+                                        showImagesGallery(
+                                            images: [...?post.imagesUrls],
+                                            initial:
+                                                post.imagesUrls!.indexOf(e));
+                                      },
+                                    ),
+                                  );
+                                }
+                              })
+                            ],
                           ),
                         )),
 
@@ -203,29 +215,30 @@ class PostWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  IconButton(
-                      onPressed: () {
-                        // if (post.loves?.contains(Get.find<UserViewModel>().currentUser!.id)??false) {
-                        //   postController.isLove.value = false;
-                        //   //lovesCount--;
-                        // } else {
-                        //   postController.isLove.value = true;
-                        //   //postController.lovesCount++;
-                        // }
-                        PostViewModel().loveOrNotPost(
-                          post.postId!,
+                  StreamBuilder<bool>(
+                      stream: _postViewModel.isLoverPost(postId: postId),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError || !snapshot.hasData) {
+                          return IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.favorite_border),
+                          );
+                        }
+                        return IconButton(
+                          onPressed: () {
+                            PostViewModel().loveOrNotPost(
+                              postId: post.postId!,
+                              isLoved: snapshot.data!,
+                            );
+                          },
+                          icon: snapshot.data!
+                              ? const Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                )
+                              : const Icon(Icons.favorite_border),
                         );
-                      },
-                      icon: StreamBuilder<bool>(
-                          stream: _postViewModel.isLoverPost(postId: postId),
-                          builder: (context, snapshot) {
-                            return (snapshot.hasData ? snapshot.data! : false)
-                                ? const Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  )
-                                : const Icon(Icons.favorite_border);
-                          })),
+                      }),
                   IconButton(
                       onPressed: () {
                         Get.to(CommentsScreen(
@@ -240,15 +253,6 @@ class PostWidget extends StatelessWidget {
             ],
           ),
         );
-      },
-    );
-  }
-
-  void showGallery(PostModel post, context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return ImageGalleryWidget(images: [...post.imagesUrls!]);
       },
     );
   }

@@ -55,4 +55,100 @@ class ChatFireStore {
         .collection(collectionMessages)
         .add(message.toFire());
   }
+
+  Future<List<ChatModel>> getUserChats() async {
+    List<ChatModel> result = [];
+    result.addAll(await _chatReference
+        .where(fieldChatUser1, isEqualTo: currentUser.id)
+        .get()
+        .then((value) =>
+    [
+      ...value.docs.map((e) =>
+          ChatModel.fromFire(e.data() as Map<String, dynamic>, e.id))
+    ]));
+    result.addAll(await _chatReference
+        .where(fieldChatUser2, isEqualTo: currentUser.id)
+        .get()
+        .then((value) =>
+    [
+      ...value.docs.map((e) =>
+          ChatModel.fromFire(e.data() as Map<String, dynamic>, e.id))
+    ]));
+    return result;
+  }
+
+  seeChat({required String chatId}) {
+    _chatReference
+        .doc(chatId)
+        .collection(collectionMessages)
+        .orderBy(fieldMessageTime, descending: true)
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        MessageModel message =
+        MessageModel.fromFire(element.data(), element.id);
+        if (message.isSeen == false && message.receiver == currentUser.id!) {
+          _chatReference
+              .doc(chatId)
+              .collection(collectionMessages)
+              .doc(element.id)
+              .update({fieldMessageIsSeen: true});
+        } else {
+          return;
+        }
+        ;
+      });
+    });
+  }
+
+  Stream<int> getNotSeenChatsCount() {
+    return FirebaseFirestore.instance
+        .collectionGroup(collectionMessages)
+    //.where(fieldMessageReceiver, isEqualTo: currentUser.id)
+        .snapshots()
+        .map((event) {
+      int count = 0;
+      event.docs.forEach((element) {
+        MessageModel message =
+        MessageModel.fromFire(element.data(), element.id);
+        if (message.isSeen == false && message.receiver == currentUser.id) {
+          count++;
+        } else {
+          return;
+        }
+      });
+      return count;
+    });
+  }
+
+  Stream<int> getNotSeenMessagesCount({required String chatId}) {
+    return _chatReference
+        .doc(chatId)
+        .collection(collectionMessages)
+        .snapshots()
+        .map((event) {
+      int count = 0;
+      event.docs.forEach((element) {
+        MessageModel message =
+        MessageModel.fromFire(element.data(), element.id);
+        if (message.isSeen == false && message.receiver == currentUser.id) {
+          count++;
+        } else {
+          return;
+        }
+      });
+      return count;
+    });
+  }
+
+  Stream<MessageModel> getLastMessage({required String chatId}) {
+    return _chatReference
+        .doc(chatId)
+        .collection(collectionMessages)
+        .orderBy(fieldMessageTime, descending: true)
+        .limit(1)
+        .snapshots().map((event) =>
+        MessageModel.fromFire(event.docs[0].data(), event.docs[0].id))
+    ;
+  }
 }

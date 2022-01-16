@@ -11,6 +11,7 @@ class MessageModel {
   String? imageUrl;
   String? videoUrl;
   String? text;
+  bool? isSeen;
 
   MessageModel(
       {this.id,
@@ -20,7 +21,8 @@ class MessageModel {
       this.time,
       this.imageUrl,
       this.videoUrl,
-      this.text});
+      this.text,
+      this.isSeen});
 
   MessageModel.fromFire(Map<String, dynamic> map, this.id)
       : //chatId = map[fieldMessageChatId],
@@ -29,7 +31,8 @@ class MessageModel {
         time = map[fieldMessageTime],
         imageUrl = map[fieldMessageImage],
         videoUrl = map[fieldMessageVideo],
-        text = map[fieldMessageText];
+        text = map[fieldMessageText],
+        isSeen = map[fieldMessageIsSeen];
 
   Map<String, dynamic> toFire() => {
         fieldMessageId: id,
@@ -40,5 +43,6 @@ class MessageModel {
         fieldMessageImage: imageUrl,
         fieldMessageVideo: videoUrl,
         fieldMessageText: text,
+    fieldMessageIsSeen: isSeen
       };
 }

@@ -7,7 +7,7 @@ const Color main2 = Color.fromRGBO(44, 44, 44, 1);
 const Color _color2 = Colors.white;
 // const Color background2 = Colors.black12;
 const Color onBackground2 = Colors.white54;
-const Color _primary = Color(0xff0d3a0a);
+const Color _primary = Colors.green;
 
 ThemeData darkTheme = ThemeData.dark().copyWith(
   primaryColor: _primary,
@@ -64,11 +64,11 @@ ThemeData darkTheme = ThemeData.dark().copyWith(
   )),
   inputDecorationTheme: const InputDecorationTheme(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        borderRadius: BorderRadius.all(Radius.circular(25.0)),
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: _primary),
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        borderRadius: BorderRadius.all(Radius.circular(25.0)),
       ),
       fillColor: _color2,
       counterStyle: TextStyle(color: _color2)),

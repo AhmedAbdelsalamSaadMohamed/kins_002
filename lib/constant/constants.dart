@@ -49,6 +49,7 @@ const String fieldPostVideoUrl = 'post_video_url';
 const String fieldPostCommentsIsd = 'post_comments_ids';
 const String fieldPostSharesIds = 'post_shares_ids';
 const String fieldPostLovesIds = 'post_loves_ids';
+const String fieldPostPrivacy = 'post_privacy';
 // const String fieldPostSadsIds = 'post_sads_ids';
 // const String fieldPostAngriesIds = 'post_angries_ids';
 // const String fieldPostCaresIds = 'post_cares_ids';
@@ -89,6 +90,7 @@ const String recommendedPosts = 'recommended_posts';
 ///
 const String collectionMessages = 'Messages';
 const String fieldMessageId = 'id';
+const String fieldMessageIsSeen = 'is_seen';
 const String fieldMessageChatId = 'chat_id';
 const String fieldMessageSender = 'sender';
 const String fieldMessageReceiver = 'receiver';
@@ -140,8 +142,8 @@ enum Relations {
   myUncle,
   myMaternalAunt,
   myAunt,
-  myGrandFather,
-  myGrandMother,
+  // myGrandFather,
+  // myGrandMother,
 }
 
 const months = [

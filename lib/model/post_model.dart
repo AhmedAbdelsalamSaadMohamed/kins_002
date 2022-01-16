@@ -6,6 +6,7 @@ class PostModel {
   String? ownerId;
   String? postText;
   Timestamp? postTime;
+  String? postPrivacy;
   List<dynamic>? imagesUrls;
   String? videoUrl;
   List<dynamic>? comments;
@@ -16,6 +17,7 @@ class PostModel {
       {this.postId,
       this.ownerId,
       this.postText,
+      this.postPrivacy,
       this.imagesUrls,
       this.videoUrl,
       this.comments,
@@ -26,6 +28,7 @@ class PostModel {
   PostModel.fromFire(Map<String, dynamic> json, this.postId) {
     ownerId = json[fieldPostOwnerId];
     postText = json[fieldPostText];
+    postPrivacy = json[fieldPostPrivacy];
     imagesUrls = json[fieldPostImagesUrls];
     videoUrl = json[fieldPostVideoUrl];
     comments = json[tableComments];
@@ -38,6 +41,7 @@ class PostModel {
     return {
       fieldPostOwnerId: ownerId,
       fieldPostText: postText,
+      fieldPostPrivacy: postPrivacy,
       fieldPostImagesUrls: FieldValue.arrayUnion(imagesUrls!),
       fieldPostVideoUrl: videoUrl,
       fieldPostTime: postTime

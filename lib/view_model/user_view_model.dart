@@ -147,6 +147,12 @@ class UserViewModel extends GetxController {
     }
   }
 
+  Future<bool> isARealUser({required String userId}) {
+    return UserViewModel().getUserFromFireStore(userId).then((user) {
+      return user?.email != null;
+    });
+  }
+
   Future<List<UserModel>> getAllRealUsers() {
     return _userFirestore.getAllRealUsers();
   }
@@ -159,11 +165,11 @@ class UserViewModel extends GetxController {
     return await UserFirestore().getSons(userId);
   }
 
-  RxList<UserModel> allFamily = <UserModel>[].obs;
+  //RxList<UserModel> allFamily = <UserModel>[].obs;
   bool sonsDone = false, dadDone = false, momDone = false, spouseDone = false;
 
   Future<void> getAllFamily() async {
-    allFamily.value = <UserModel>[];
+    //allFamily.value = <UserModel>[];
     sonsDone = false;
     dadDone = false;
     momDone = false;
@@ -174,12 +180,12 @@ class UserViewModel extends GetxController {
     update();
     print('upppppppppppppppppppdate');
 
-    allFamily.add((await getUserFromFireStore(currentUser!.id!))!);
+    //allFamily.add((await getUserFromFireStore(currentUser!.id!))!);
 
     // for (int i = 0, length = allFamily.length;
     //     i < length;
     //     length = allFamily.length, i++) {
-    UserModel user = allFamily[0];
+    // UserModel user = allFamily[0];
 
     ///un comment
     // getParents(user).then((value) {
@@ -196,7 +202,7 @@ class UserViewModel extends GetxController {
     // }
   }
 
-  Future<void> getParents(UserModel user) async {
+  Future<void> getParents(UserModel user, List<UserModel> allFamily) async {
     if (user.dad != null && user.mom != null) {
       print(
           '########${user.dad}##############################${user.id}########################');
@@ -205,8 +211,8 @@ class UserViewModel extends GetxController {
       if (!allFamily.map((e) => e.id).contains(dad.id)) {
         allFamily.add(dad);
         dadDone == false;
-        getParents(dad);
-        getSons(dad);
+        getParents(dad, allFamily);
+        getSons(dad, allFamily);
       } else {
         dadDone = true;
         loading = !(dadDone && momDone && sonsDone && spouseDone);
@@ -216,8 +222,8 @@ class UserViewModel extends GetxController {
       if (!allFamily.map((e) => e.id).contains(mom.id)) {
         allFamily.add(mom);
         momDone == false;
-        getParents(mom);
-        getSons(mom);
+        getParents(mom, allFamily);
+        getSons(mom, allFamily);
       } else {
         momDone = true;
         loading = !(dadDone && momDone && sonsDone && spouseDone);
@@ -233,14 +239,14 @@ class UserViewModel extends GetxController {
     }
   }
 
-  Future<void> getSons(UserModel user) async {
+  Future<void> getSons(UserModel user, List<UserModel> allFamily) async {
     if (user.spouse != null) {
       UserModel spouse = (await getUserFromFireStore(user.spouse!))!;
       if (!allFamily.map((e) => e.id).contains(spouse.id)) {
         allFamily.add(spouse);
         spouseDone == false;
-        getParents(spouse);
-        getSons(spouse);
+        getParents(spouse, allFamily);
+        getSons(spouse, allFamily);
       } else {
         spouseDone = true;
         loading = !(dadDone && momDone && sonsDone && spouseDone);
@@ -254,8 +260,8 @@ class UserViewModel extends GetxController {
           if (!allFamily.map((e) => e.id).contains(son.id)) {
             allFamily.add(son);
             sonsDone == false;
-            getParents(son);
-            getSons(son);
+            getParents(son, allFamily);
+            getSons(son, allFamily);
           }
         });
       } else {

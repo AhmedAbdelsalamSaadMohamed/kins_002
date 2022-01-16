@@ -1,45 +1,34 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:kins_v002/services/firebase/post_firestore.dart';
 import 'package:kins_v002/view/widgets/new_post_widget.dart';
 import 'package:kins_v002/view/widgets/post_widget.dart';
-import 'package:paginate_firestore/paginate_firestore.dart';
+import 'package:kins_v002/view_model/post_view_model.dart';
 
 class PublicView extends StatelessWidget {
-  PublicView({Key? key}) : super(key: key);
-  final Query query = PostFireStore().getPublicPostsQuery();
+  const PublicView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PaginateFirestore(
-        itemBuilder: (int index, BuildContext context,
-            DocumentSnapshot documentSnapshot) {
-          if (index == 0) {
-            return Column(
-              children: [
-                NewPostWidget(
-                  showProfile: true,
-                ),
-                PostWidget(
-                  postId: documentSnapshot.id,
-                ),
-              ],
-            );
-          } else {
-            return PostWidget(
-              postId: documentSnapshot.id,
-            );
-          }
-        },
-        query: query,
-        itemBuilderType: PaginateBuilderType.listView,
-        itemsPerPage: 15,
-        padding: const EdgeInsets.only(bottom: 150),
-        emptyDisplay: NewPostWidget(),
-        shrinkWrap: true,
-        pageController: PageController(keepPage: true),
-      ),
-    );
+        body: FutureBuilder<List<String>>(
+      future: PostViewModel().getPublicPosts(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError || !snapshot.hasData) {
+          return NewPostWidget(
+            showProfile: true,
+          );
+        }
+        return ListView.builder(
+          itemCount: snapshot.data!.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return NewPostWidget(
+                showProfile: true,
+              );
+            }
+            return PostWidget(postId: snapshot.data![index - 1]);
+          },
+        );
+      },
+    ));
   }
 }

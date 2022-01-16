@@ -6,7 +6,6 @@ import 'package:kins_v002/view/tree_widgets/user_point_widget.dart';
 import 'package:kins_v002/view/widgets/custom_app_bar_widget.dart';
 import 'package:kins_v002/view/widgets/custom_text.dart';
 import 'package:kins_v002/view_model/build_map_view_model.dart';
-import 'package:kins_v002/view_model/user_view_model.dart';
 
 class MapScreen extends StatelessWidget {
   MapScreen({Key? key}) : super(key: key);
@@ -76,13 +75,13 @@ class MapScreen extends StatelessWidget {
 }
 
 Widget rectangleWidget(String? a) {
-  List<String> aa = [
-    ...a!.split('*').map(
-        (e) => getx.Get.find<UserViewModel>().allFamily.firstWhere((element) {
-              print(element.id);
-              return element.id == e;
-            }).name!)
-  ];
+  // List<String> aa = [
+  //   ...a!.split('*').map(
+  //       (e) => getx.Get.find<UserViewModel>().allFamily.firstWhere((element) {
+  //             print(element.id);
+  //             return element.id == e;
+  //           }).name!)
+  // ];
   return Container(
       height: 0.0 + userPointHeight,
       width: 0.0 + userPointWidth,
@@ -96,8 +95,9 @@ Widget rectangleWidget(String? a) {
       child: Center(
         child: CustomText(
           size: 12,
-          text:
-              '${aa[0] == 'Unknown' ? 'Father' : aa[0]} & ${aa[1] == 'Unknown' ? 'Mother' : aa[1]} ',
+          text: ''
+          // '${aa[0] == 'Unknown' ? 'Father' : aa[0]} & ${aa[1] == 'Unknown' ? 'Mother' : aa[1]} '
+          ,
         ),
       ));
 }

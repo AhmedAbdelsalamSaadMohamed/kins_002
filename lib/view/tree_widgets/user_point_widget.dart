@@ -382,7 +382,7 @@ class UserPointWidget extends StatelessWidget {
 
   _addUser(UserModel newUser) {
     if (treeType == 'auth') {
-      controller.allFamily.add(newUser);
+     // controller.allFamily.add(newUser);
       controller.setUserToFirestore(newUser);
     } else {
       localController.setUser(newUser);

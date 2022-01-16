@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:kins_v002/model/user_model.dart';
 import 'package:kins_v002/services/firebase/family_firestore.dart';
 import 'package:kins_v002/services/firebase/follow_fireStore.dart';
+import 'package:kins_v002/services/firebase/user_firestore.dart';
 import 'package:kins_v002/view_model/request_view_model.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
 
@@ -17,13 +18,36 @@ class FamilyViewModel {
     _familyFireStore.RemoveFromFamily(userId: userId);
   }
 
-  Stream<List<Future<UserModel?>>> getUserFamily({required String userId}) {
-    return _familyFireStore.getUserFamily(userId).map((event) =>
-        [...event.map((e) => UserViewModel().getUserFromFireStore(e))]);
+  Stream<Future<List<UserModel>>> getUserFamily({required String userId}) {
+    return _familyFireStore.getUserFamily(userId).map((event) {
+      event.add(currentUserId);
+      return UserFirestore().getAllFamilyUsers(event);
+    });
+  }
+
+  Stream<List<Future<UserModel?>>> getUserRealFamily({required String userId}) {
+    return _familyFireStore.getUserFamily(userId).map((event) {
+      List<Future<UserModel?>?> result = [
+        ...event.map((e) {
+          Future<UserModel?> user = UserViewModel().getUserFromFireStore(e);
+
+          if (!e.startsWith('NULL')) {
+            return user;
+          }
+          return null;
+        })
+      ];
+      result.removeWhere((element) => element == null);
+      return List<Future<UserModel?>>.from(result);
+    });
   }
 
   Stream<int> getFamilyCount({required String userId}) {
     return _familyFireStore.getFamilyCount(userId);
+  }
+
+  Stream<int> getRealFamilyCount({required String userId}) {
+    return getUserRealFamily(userId: userId).map((event) => event.length);
   }
 
   Stream<Stream<Stream<Stream<List<UserModel>>>>> getAllSuggestedKins() {

@@ -7,7 +7,6 @@ import 'package:kins_v002/view/widgets/custom_app_bar_widget.dart';
 import 'package:kins_v002/view/widgets/custom_text_form_field_widget.dart';
 import 'package:kins_v002/view/widgets/profile_circle_avatar.dart';
 import 'package:kins_v002/view_model/build_map_view_model.dart';
-import 'package:kins_v002/view_model/tree_view_model.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
 
 class AddUserScreen extends StatelessWidget {
@@ -58,9 +57,9 @@ class AddUserScreen extends StatelessWidget {
                 UserViewModel userController = Get.find<UserViewModel>();
                 user.id = user.id ?? RandomId().getId(25);
                 userController.setUserToFirestore(user).then((value) {
-                  userController.allFamily.add(user);
-                  Get.find<TreeViewModel>(tag: userController.currentUser!.id!)
-                      .reload();
+                  //userController.allFamily.add(user);
+                  // Get.find<TreeViewModel>(tag: userController.currentUser!.id!)
+                  //     .reload();
                   Get.put<BuildMapViewModel>(BuildMapViewModel())
                       .getUserNodes();
                   Get.back();

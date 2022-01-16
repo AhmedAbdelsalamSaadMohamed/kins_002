@@ -190,20 +190,20 @@ class NotificationViewModel extends GetxController {
                 }
               }));
     }
-    if (action == NotificationModel.create) {
-      _userController.allFamily.forEach((familyMember) {
-        if (familyMember.id != userId) {
-          _notificationFireStore.addNotification(NotificationModel(
-            ownerId: familyMember.id,
-            relation: 'familyMember',
-            userId: userId,
-            action: NotificationModel.create,
-            postId: postId,
-            time: time,
-          ));
-        }
-      });
-    }
+    // if (action == NotificationModel.create) {
+    //   _userController.allFamily.forEach((familyMember) {
+    //     if (familyMember.id != userId) {
+    //       _notificationFireStore.addNotification(NotificationModel(
+    //         ownerId: familyMember.id,
+    //         relation: 'familyMember',
+    //         userId: userId,
+    //         action: NotificationModel.create,
+    //         postId: postId,
+    //         time: time,
+    //       ));
+    //     }
+    //   });
+    // }
   }
 
   Future<int> getNotificationsCount() {

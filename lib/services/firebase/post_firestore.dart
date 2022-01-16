@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:kins_v002/constant/constants.dart';
 import 'package:kins_v002/model/post_model.dart';
 import 'package:kins_v002/model/user_model.dart';
+import 'package:kins_v002/services/firebase/family_firestore.dart';
+import 'package:kins_v002/services/firebase/follow_fireStore.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
 
 class PostFireStore {
@@ -14,17 +16,6 @@ class PostFireStore {
 
   Future<String> addPost(PostModel newPost) async {
     return await _postsReference.add(newPost.toFire()).then((post) {
-      Get.find<UserViewModel>().allFamily.forEach((element) {
-        FirebaseFirestore.instance
-            .collection(tableUsers)
-            .doc(element.id)
-            .collection(recommendedPosts)
-            .doc(post.id)
-            .set({
-          fieldPostId: post.id,
-          fieldPostTime: newPost.postTime,
-        });
-      });
       return post.id;
     });
   }
@@ -35,27 +26,6 @@ class PostFireStore {
         .collection(tablePostLoves)
         .doc(currentUser.id)
         .set({fieldId: currentUser.id});
-
-    // update({
-    //   fieldPostLovesIds: FieldValue.arrayUnion([currentUser.id])
-    // }).then((value) {
-    //   getPostLovers(postId).then((value) {
-    //     value.forEach((userId) {
-    //       NotificationModel notifi = NotificationModel(
-    //         userId: userId,
-    //         postId: postId,
-    //         action: 'react',
-    //         relation: 'reacted',
-    //         time: Timestamp.now(),
-    //       );
-    //       FirebaseFirestore.instance
-    //           .collection(tableUsers)
-    //           .doc(userId)
-    //           .collection(collectionNotifications)
-    //           .add(notifi.toFire());
-    //     });
-    //   });
-    // });
   }
 
   notLovePost(String postId) {
@@ -64,9 +34,6 @@ class PostFireStore {
         .collection(tablePostLoves)
         .doc(currentUser.id)
         .delete();
-    // _postsReference.doc(postId).update({
-    //   fieldPostLovesIds: FieldValue.arrayRemove([currentUser.id])
-    // });
   }
 
   Stream<List<String>> getPostLoversIds({required String postId}) {
@@ -94,32 +61,6 @@ class PostFireStore {
             [...event.docs.map((e) => e.id)].contains(currentUser.id));
   }
 
-  // Stream<int> lovesCount({required String postId}) {
-  //   return _postsReference
-  //       .doc(postId)
-  //       .collection(tablePostLoves)
-  //       .snapshots()
-  //       .map((event) => event.docs.length);
-  // }
-
-  // Future<List<PostModel>?> getPosts() async {
-  //   List<String> allFamily = <String>[
-  //     ...Get.find<UserViewModel>().allFamily.map((e) => e.id!)
-  //   ];
-  //   return await _postsReference
-  //       .where(fieldPostOwnerId, whereIn: allFamily)
-  //       .get()
-  //       .then((querySnapshot) {
-  //     if (querySnapshot.docs.isNotEmpty) {
-  //       return [
-  //         ...querySnapshot.docs.map((e) {
-  //           return PostModel.fromFire(e.data() as Map<String, dynamic>, e.id);
-  //         })
-  //       ];
-  //     }
-  //   });
-  // }
-
   Query getRecommendedPosts() {
     String userId = Get.find<UserViewModel>().currentUser!.id!;
     return FirebaseFirestore.instance
@@ -127,35 +68,54 @@ class PostFireStore {
         .doc(userId)
         .collection(recommendedPosts)
         .orderBy(fieldPostTime, descending: true);
-    // if (await query1.get().then((value) => value.docs.length) == 0) {
-    //   Get.find<UserViewModel>().allFamily.forEach((user) {
-    //     FirebaseFirestore.instance
-    //         .collection(tableUsers)
-    //         .doc(user.id)
-    //         .collection(recommendedPosts)
-    //         .get()
-    //         .then((value) => value.docs.forEach((element) {
-    //               FirebaseFirestore.instance
-    //                   .collection(tableUsers)
-    //                   .doc(userId)
-    //                   .collection(recommendedPosts)
-    //                   .doc(element.id)
-    //                   .set(element.data());
-    //             }));
-    //   });
-    // }
   }
 
-  Future<Query<Object?>> getUserPostsQuery({String? userId}) async {
-    userId ?? currentUser.id!;
+  Future<Query<Object?>> getUserPostsQuery({required String userId}) async {
     return _postsReference
         .where(fieldPostOwnerId, isEqualTo: userId)
         .orderBy(fieldPostTime, descending: true);
   }
 
-  Query getPublicPostsQuery({String? userId}) {
-    userId ?? currentUser.id!;
-    return _postsReference.orderBy(fieldPostTime, descending: true);
+  Future<List<String>> getPublicPosts() {
+    return _postsReference
+        .orderBy(fieldPostTime, descending: true)
+        .where(fieldPostPrivacy, isEqualTo: 'public')
+        .get()
+        .then((value) => [...value.docs.map((e) => e.id)]);
+  }
+
+  Future<List<String>> getFollowingPosts() {
+    return FollowFireStore()
+        .getUserFollowings(currentUser.id!)
+        .first
+        .then((followings) {
+      return _postsReference
+          .where(fieldPostPrivacy, isEqualTo: 'followers')
+          .orderBy(fieldPostTime, descending: true)
+          .get()
+          .then((value) {
+        List<String> result = [...value.docs.map((e) => e.id)];
+        result.removeWhere((element) => !followings.contains(element));
+        return result;
+      });
+    });
+  }
+
+  Future<List<String>> getFamilyPosts() {
+    return FamilyFireStore()
+        .getUserFamily(currentUser.id!)
+        .first
+        .then((family) {
+      return _postsReference
+          .where(fieldPostPrivacy, isEqualTo: 'family')
+          .orderBy(fieldPostTime, descending: true)
+          .get()
+          .then((value) {
+        List<String> result = [...value.docs.map((e) => e.id)];
+        result.removeWhere((element) => !family.contains(element));
+        return result;
+      });
+    });
   }
 
   Stream<DocumentSnapshot> getPostSteam(String postId) {

@@ -1,3 +1,4 @@
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,11 +12,13 @@ import 'package:kins_v002/view_model/user_view_model.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      options: FirebaseOptions(
-          projectId: 'kins-25271',
-          apiKey: 'AIzaSyBnjDFLSPMtzGZhPb2cPo_0gV1AmP6XaFM',
-          messagingSenderId: '1042700768431',
-          appId: '1:1042700768431:android:24eb49d273a1e0c65cb05a'));
+      // options: FirebaseOptions(
+      //     projectId: 'kins-25271',
+      //     apiKey: 'AIzaSyBnjDFLSPMtzGZhPb2cPo_0gV1AmP6XaFM',
+      //     messagingSenderId: '1042700768431',
+      //     appId: '1:1042700768431:android:24eb49d273a1e0c65cb05a')
+      );
+  FirebaseFunctions functions = FirebaseFunctions.instance;
 
   runApp(const MyApp());
 }
@@ -49,13 +52,13 @@ class MyApp extends StatelessWidget {
                   theme: userController.darkMode ? darkTheme : lightTheme,
                   home: userController.loading
                       ? const Scaffold(
-                          body: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
+                    body: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
                       : userController.currentUser != null
-                          ? MainScreen()
-                          : SignInScreen(),
+                      ? MainScreen()
+                      : SignInScreen(),
                 );
               });
         });

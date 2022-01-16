@@ -50,7 +50,7 @@ class CommentsScreen extends StatelessWidget {
                       stream:
                           CommentFirestore(postId: postId).getCommentsStream(),
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
+                        if (snapshot.hasError || !snapshot.hasData) {
                           return Container();
                         }
                         List<CommentModel> comments = snapshot.data!;
@@ -111,7 +111,7 @@ class CommentsScreen extends StatelessWidget {
                         child: ProfileCircleAvatar(
                             imageUrl: '', radius: 20, gender: 'male')),
                     Expanded(
-                      child: Container(
+                      child: Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: Form(
                           key: _formKey,
@@ -127,7 +127,6 @@ class CommentsScreen extends StatelessWidget {
                               commentText = newValue;
                             },
                             decoration: InputDecoration(
-                                border: InputBorder.none,
                                 prefixIcon: _addCommentImage(),
                                 suffixIcon: IconButton(
                                     onPressed: () async {
@@ -167,12 +166,6 @@ class CommentsScreen extends StatelessWidget {
                                     icon: const Icon(Icons.send)),
                                 hintText: 'Write a comment'.tr),
                           ),
-                        ),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.background,
-                          border: Border.all(
-                              color: Theme.of(context).colorScheme.secondary),
-                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
                     ),

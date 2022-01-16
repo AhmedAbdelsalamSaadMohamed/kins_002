@@ -24,12 +24,8 @@ class ChatScreen extends StatelessWidget {
 
   Rx<File> image = File('null').obs, video = File('null').obs;
   RxBool wait = false.obs;
-
-  // late PostModel post;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? messageText;
-
-  // String postId;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +43,7 @@ class ChatScreen extends StatelessWidget {
             );
           }
           String chatId = snapshot.data!;
+          ChatViewModel().seeChat(chatId: chatId);
           return Scaffold(
             appBar:
                 CustomAppBarWidget.appBar(title: user.name!, context: context),
@@ -72,8 +69,6 @@ class ChatScreen extends StatelessWidget {
                               child: CircularProgressIndicator(),
                             );
                           }
-                          print(
-                              '///////////////////////${snapshot.data!.size}//////////////////////////////////');
                           return ListView.builder(
                             shrinkWrap: true,
                             reverse: true,
@@ -118,7 +113,6 @@ class ChatScreen extends StatelessWidget {
                                     messageText = newValue;
                                   },
                                   decoration: InputDecoration(
-                                      border: InputBorder.none,
                                       prefixIcon: _addMessageImage(),
                                       suffixIcon: IconButton(
                                           onPressed: () async {
@@ -165,11 +159,6 @@ class ChatScreen extends StatelessWidget {
                                       hintText: ' Write a Message...'),
                                 ),
                               ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: primaryColor),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
                             ),
                           ),
                         ],
@@ -195,104 +184,6 @@ class ChatScreen extends StatelessWidget {
                 ),
               ),
             ),
-
-            // bottomSheet: Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: Row(
-            //     crossAxisAlignment: CrossAxisAlignment.start,
-            //     children: [
-            //       const Padding(
-            //           padding: EdgeInsets.all(10),
-            //           child: ProfileCircleAvatar(
-            //               imageUrl: '', radius: 20, gender: 'male')),
-            //       Expanded(
-            //         child: Container(
-            //           padding: const EdgeInsets.all(2.0),
-            //           child: Form(
-            //              key: _formKey,
-            //             child: TextFormField(
-            //               keyboardType: TextInputType.multiline,
-            //               maxLines: null,
-            //               validator: (value) {
-            //                 if (value == null) {
-            //                   return 'Can\'t Publish Empty Comment';
-            //                 }
-            //               },
-            //               onSaved: (newValue) {
-            //                 messageText = newValue;
-            //               },
-            //               decoration: InputDecoration(
-            //                   border: InputBorder.none,
-            //                   prefixIcon: _addCommentImage(),
-            //                   suffixIcon: IconButton(
-            //                       onPressed: () {
-            //                         _formKey.currentState!.save();
-            //                         if (_formKey.currentState!.validate()) {
-            //                           String? imageUrl, videoUrl;
-            //                           if (image.value.path != 'null') {
-            //                             wait.value = true;
-            //                             FireStorage()
-            //                                 .uploadFile(image.value)
-            //                                 .then((value) {
-            //                               imageUrl = value;
-            //                               wait.value = false;
-            //                             });
-            //                           }
-            //                           if (video.value.path != 'null') {
-            //                             wait.value = true;
-            //                             FireStorage()
-            //                                 .uploadFile(video.value)
-            //                                 .then((value) {
-            //                               videoUrl = value;
-            //                               wait.value = false;
-            //                             });
-            //                           }
-            //                           if (wait.value == false) {
-            //                             print(chatId);
-            //                             ChatViewModel().sendMessage(
-            //                                     MessageModel(
-            //                                       sender: Get.find<UserViewModel>().currentUser!.id,
-            //                                       receiver: user.id,
-            //                                       text: messageText,
-            //                                       time: Timestamp.now(),
-            //                                       videoUrl: videoUrl,
-            //                                       //imageUrls: imageUrl,
-            //                                     ), chatId);
-            //                             _formKey.currentState!.reset();
-            //                           }
-            //                           wait.listen((w) {
-            //                             if (w == false) {
-            //                               // CommentViewModel()
-            //                               //     .publishComment(
-            //                               //   postId: postId,
-            //                               //   text: messageText,
-            //                               //   imageUrl: imageUrl,
-            //                               //   videoUrl: videoUrl,
-            //                               // )
-            //                               // .then((value) => Get.off(
-            //                               // CommentsScreen(
-            //                               //   postId: postId,
-            //                               // ),
-            //                               // preventDuplicates: false))
-            //                               ;
-            //                             }
-            //                           });
-            //                         }
-            //                       },
-            //                       icon: const Icon(Icons.send)),
-            //                   hintText: ' Write a comment...'),
-            //             ),
-            //           ),
-            //           decoration: BoxDecoration(
-            //             color: Colors.white,
-            //             border: Border.all(color: primaryColor),
-            //             borderRadius: BorderRadius.circular(30),
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
           );
         });
   }

@@ -18,15 +18,16 @@ import 'package:kins_v002/view_model/user_view_model.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({Key? key, required this.user}) : super(key: key);
-  final UserModel user;
+  ProfileScreen({Key? key}) : super(key: key);
+
+  // final UserModel user;
   final UserModel currentUser = Get.find<UserViewModel>().currentUser!;
   final FollowViewModel _followViewModel = FollowViewModel();
 
   @override
   Widget build(BuildContext context) {
-    print(
-        'Get.find<UserViewModel>().allFamily.length   ${Get.find<UserViewModel>().allFamily.length}');
+    // print(
+    //     'Get.find<UserViewModel>().allFamily.length   ${Get.find<UserViewModel>().allFamily.length}');
 
     return Scaffold(
         appBar: AppBar(
@@ -41,7 +42,7 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         body: FutureBuilder<Query>(
-            future: PostFireStore().getUserPostsQuery(),
+            future: PostFireStore().getUserPostsQuery(userId: currentUser.id!),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Center(
@@ -85,50 +86,52 @@ class ProfileScreen extends StatelessWidget {
       children: [
         Row(
           children: [
+
+            /// profile image
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Stack(
                 children: [
                   ProfileCircleAvatar(
-                      imageUrl: user.profile, radius: 50, gender: user.gender),
-                  user.id != currentUser.id
-                      ? Container()
-                      : Positioned(
-                          left: 60,
-                          top: 60,
-                          child: PopupMenuButton(
-                            itemBuilder: (context) {
-                              return [
-                                PopupMenuItem(
-                                  child: const Icon(Icons.camera),
-                                  onTap: () async {
-                                    final XFile? photo = await ImagePicker()
-                                        .pickImage(source: ImageSource.camera);
-                                    print(photo!.path.toString());
-                                  },
-                                ),
-                                PopupMenuItem(
-                                  child: const Icon(Icons.image),
-                                  onTap: () async {
-                                    final XFile? photo = await ImagePicker()
-                                        .pickImage(source: ImageSource.gallery);
-                                    if (photo != null) {
-                                      // FireStorage().uploadFile(photo.path);
-                                      Get.put(UserViewModel())
-                                          .updateUserProfileImage(photo);
-                                    }
-                                  },
-                                ),
-                              ];
+                      imageUrl: currentUser.profile,
+                      radius: 50,
+                      gender: currentUser.gender),
+                  Positioned(
+                    left: 60,
+                    top: 60,
+                    child: PopupMenuButton(
+                      itemBuilder: (context) {
+                        return [
+                          PopupMenuItem(
+                            child: const Icon(Icons.camera),
+                            onTap: () async {
+                              final XFile? photo = await ImagePicker()
+                                  .pickImage(source: ImageSource.camera);
+                              print(photo!.path.toString());
                             },
-                            icon: const Icon(
-                              Icons.camera_alt,
-                              color: Colors.black,
-                            ),
-                            elevation: 0,
-                            padding: EdgeInsets.zero,
                           ),
-                        )
+                          PopupMenuItem(
+                            child: const Icon(Icons.image),
+                            onTap: () async {
+                              final XFile? photo = await ImagePicker()
+                                  .pickImage(source: ImageSource.gallery);
+                              if (photo != null) {
+                                // FireStorage().uploadFile(photo.path);
+                                Get.put(UserViewModel())
+                                    .updateUserProfileImage(photo);
+                              }
+                            },
+                          ),
+                        ];
+                      },
+                      icon: const Icon(
+                        Icons.camera_alt,
+                        color: Colors.black,
+                      ),
+                      elevation: 0,
+                      padding: EdgeInsets.zero,
+                    ),
+                  )
                 ],
               ),
             ),
@@ -136,7 +139,7 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(
               width: MediaQuery.of(context).size.width - (100 + 20 + 15),
               child: CustomText(
-                text: user.name ?? 'user',
+                text: currentUser.name ?? 'user',
                 weight: FontWeight.bold,
                 size: 32,
               ),
@@ -145,6 +148,8 @@ class ProfileScreen extends StatelessWidget {
         ),
         Wrap(
           children: [
+
+            ///family tree button
             ActionChip(
               label: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -157,32 +162,30 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
               onPressed: () {
-                user.id == currentUser.id
-                    ? Get.to(TreeScreen())
-                    : _showTree(context, user);
+                Get.to(TreeScreen());
               },
             ),
 
             ///follow button
-            user.id == currentUser.id!
-                ? Container()
-                : StreamBuilder<bool>(
-                    stream: _followViewModel.isFollowing(user.id!),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError || !snapshot.hasData) {
-                        return ActionChip(
-                          onPressed: () {},
-                          label: Text('      '),
-                        );
-                      }
-                      return ActionChip(
-                          label: Text(snapshot.data! ? 'Unfollow' : 'Follow'),
-                          onPressed: () {
-                            snapshot.data!
-                                ? _followViewModel.unFollow(userId: user.id!)
-                                : _followViewModel.follow(userId: user.id!);
-                          });
-                    }),
+            // user.id == currentUser.id!
+            //     ? Container()
+            //     : StreamBuilder<bool>(
+            //         stream: _followViewModel.isFollowing(user.id!),
+            //         builder: (context, snapshot) {
+            //           if (snapshot.hasError || !snapshot.hasData) {
+            //             return ActionChip(
+            //               onPressed: () {},
+            //               label: Text('      '),
+            //             );
+            //           }
+            //           return ActionChip(
+            //               label: Text(snapshot.data! ? 'Unfollow' : 'Follow'),
+            //               onPressed: () {
+            //                 snapshot.data!
+            //                     ? _followViewModel.unFollow(userId: user.id!)
+            //                     : _followViewModel.follow(userId: user.id!);
+            //               });
+            //         }),
 
             /// show followers
             ActionChip(

@@ -6,156 +6,103 @@ import 'package:kins_v002/model/user_point_model.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
 
 class TreeViewModel extends GetxController {
-  String treeOwner;
-
-  //bool isForeign;
-
-  TreeViewModel({required this.treeOwner /*, this.isForeign = false*/
-      }) {
-    userPoints = <UserPointModel>[].obs;
-    getHeadOfDadTree(treeOwner);
-  }
-
-  RxBool wait = false.obs;
   UserViewModel userController = Get.find<UserViewModel>();
 
   UserModel? currentUser = Get.find<UserViewModel>().currentUser;
-  late String headOfDadTree;
   List<String> dadBranch = [];
 
-  //List<UserModel> users = [];
   //int x = 1;
   RxInt maxX = 1.obs, maxY = 1.obs;
   List<int> xs = [1];
-  List<UserPointModel> userPoints = <UserPointModel>[];
 
-  List<LineModel> userLines = <LineModel>[];
-
-  reload() {
-    dadBranch = [];
-    maxX.value = 1;
-    maxY.value = 1;
-    xs = [1];
-    userPoints = <UserPointModel>[].obs;
-    userLines = <LineModel>[].obs;
-    getHeadOfDadTree(treeOwner);
-    update();
-  }
-
-  getHeadOfDadTree(String id) async {
-    wait.value = true;
-    dadBranch.add(id);
-    print('///***///***///***/******$id');
-    String?
-        dadId = /*isForeign
-        ? await userController
-            .getUserFromFireStore(id)
-            .then((value) => value!.dad)
-        : */
-        userController.allFamily.firstWhere((user) => user.id == id).dad;
-
-    //
-    // await UserFirestore().getUser(id).then((value) {
-    //   if (value == null) {
-    //     return null;
-    //   }
-    //   return value.dad;
-    // });
-    if (dadId == null) {
-      headOfDadTree = id;
-      //getUsers(headOfDadTree);
-      getPositions();
-      getLines();
-      wait.value = false;
-    } else {
-      await getHeadOfDadTree(dadId);
+  String getHeadOfDadTree(String id, List<UserModel> allFamily) {
+    String result = '';
+    _getHead(
+      String _id,
+    ) {
+      dadBranch.add(_id);
+      String? dadId = allFamily
+          .firstWhere(
+            (user) => user.id == _id,
+            orElse: () => UserModel(),
+          )
+          .dad;
+      if (dadId == null) {
+        result = _id;
+      } else {
+        _getHead(dadId);
+      }
     }
+
+    _getHead(id);
+    return result;
   }
 
-  getPositions() {
-    String head = headOfDadTree;
-    getPosition(1, head);
-    // update();
-  }
+  List<UserPointModel> getPositions(
+      List<UserModel> allFamily, String treeOwner) {
+    String head = getHeadOfDadTree(treeOwner, allFamily);
+    List<UserPointModel> userPoints = <UserPointModel>[];
+    getPosition(int y, String id, List<UserModel> allFamily) {
+      int myx = 1;
+      List<String>? sons = getSons(id, allFamily);
 
-  getPosition(int y, String id) async {
-    int myx = 1;
-    List<String>? sons = getSons(id);
-    if (sons == null) {
-      userPoints.add(UserPointModel(userId: id, x: xs[y - 1], y: y));
-      xs[y - 1]++;
-      String?
-          spouseId = /* isForeign
-          ? await userController
-              .getUserFromFireStore(id)
-              .then((value) => value!.dad)
-          : */
-          userController.allFamily
-              .firstWhere((element) => element.id == id)
-              .spouse;
-
-      if (spouseId != null && spouseId != '') {
-        userPoints.add(UserPointModel(userId: spouseId, x: xs[y - 1], y: y));
+      if (sons == null) {
+        print(id);
+        print(sons?.length.toString());
+        userPoints.add(UserPointModel(userId: id, x: xs[y - 1], y: y));
         xs[y - 1]++;
-      }
-      if (xs[y - 1] > maxX.value) {
-        maxX.value = xs[y - 1];
-      }
-    } else {
-      int newY = (y + 1);
-      if (newY > maxY.value) {
-        maxY.value = newY;
-      }
-      if (newY > xs.length) {
-        xs.add(xs.last);
-      }
-      for (var sonId in sons) {
-        myx++;
-        String?
-            sonSpouse = /*isForeign
-            ? await userController
-                .getUserFromFireStore(sonId)
-                .then((value) => value!.spouse)
-            : */
-            userController.allFamily
-                .firstWhere((element) => element.id == sonId)
-                .spouse;
-        if (sonSpouse != null && sonSpouse != '') {
-          myx++;
-        }
-        getPosition(newY, sonId);
-        //  xs[y-1]++;
-      }
-      print('------------$myx------------------------ ${xs[y]}--------');
-      xs[y - 1] = (xs[y] - myx) + myx ~/ 2;
-      userPoints.add(UserPointModel(userId: id, x: xs[y - 1], y: y));
-      xs[y - 1]++;
-      //xs[y - 1] = (xs[y] - myx) + myx ~/ 2 + 1;
-      String
-          spouseId = /*isForeign
-          ? await userController
-              .getUserFromFireStore(id)
-              .then((value) => value!.spouse!)
-          : */
-          userController.allFamily
-              .firstWhere((u) => u.id == id)
-              .spouse
-              .toString();
-      userPoints.add(UserPointModel(userId: spouseId, x: xs[y - 1], y: y));
+        String? spouseId = allFamily
+            .firstWhere(
+              (element) => element.id == id,
+              orElse: () => UserModel(),
+            )
+            .spouse;
 
-      xs[y - 1]++;
-      if (myx == 2) xs[y]++;
+        if (spouseId != null && spouseId != '') {
+          userPoints.add(UserPointModel(userId: spouseId, x: xs[y - 1], y: y));
+          xs[y - 1]++;
+        }
+        if (xs[y - 1] > maxX.value) {
+          maxX.value = xs[y - 1];
+        }
+      } else {
+        int newY = (y + 1);
+        if (newY > maxY.value) {
+          maxY.value = newY;
+        }
+        if (newY > xs.length) {
+          xs.add(xs.last);
+        }
+        for (var sonId in sons) {
+          myx++;
+          String? sonSpouse =
+              allFamily.firstWhere((element) => element.id == sonId).spouse;
+          if (sonSpouse != null && sonSpouse != '') {
+            myx++;
+          }
+          getPosition(newY, sonId, allFamily);
+        }
+        xs[y - 1] = (xs[y] - myx) + myx ~/ 2;
+        userPoints.add(UserPointModel(userId: id, x: xs[y - 1], y: y));
+        xs[y - 1]++;
+        String spouseId = allFamily.firstWhere((u) => u.id == sons[0]).dad == id
+            ? allFamily.firstWhere((u) => u.id == sons[0]).mom!
+            : allFamily.firstWhere((u) => u.id == sons[0]).dad!;
+        userPoints.add(UserPointModel(userId: spouseId, x: xs[y - 1], y: y));
+
+        xs[y - 1]++;
+        if (myx == 2) xs[y]++;
+      }
     }
-    // update();
+
+    getPosition(1, head, allFamily);
+    return userPoints;
   }
 
-  List<String>? getSons(String dadId) {
-    print(
-        '#########################${userPoints.length}########################');
-
+  List<String>? getSons(String dadId, List<UserModel> allFamily) {
     List<String> sons = [];
 
-    for (UserModel user in userController.allFamily) {
+    for (UserModel user in allFamily) {
       if (user.dad == dadId || user.mom == dadId) {
         if (!sons.contains(user.id)) {
           sons.add(user.id!);
@@ -163,11 +110,6 @@ class TreeViewModel extends GetxController {
       }
     }
     if (sons.isNotEmpty) {
-      // if ((sons.toSet()).intersection(dadBranch.toSet()).isNotEmpty) {
-      //   String intersect = (sons.toSet()).intersection(dadBranch.toSet()).first;
-      //   sons.remove(intersect);
-      //   sons.add(intersect);
-      // }
       return (sons);
     } else {
       return null;
@@ -175,40 +117,35 @@ class TreeViewModel extends GetxController {
   }
 
   ////////////////////////////////////////////////////////////////////////////
-  getLines() {
-    String head = headOfDadTree;
+  List<LineModel> getLines(List<UserModel> allFamily,
+      List<UserPointModel> userPoints, String treeOwner) {
+    String head = getHeadOfDadTree(treeOwner, allFamily);
 
-    getLine(head);
-    update();
+    return getLine(head, allFamily, userPoints);
   }
 
-  getLine(String id) {
-    String? spouseId = userController.allFamily
-        .firstWhere((element) => element.id == id)
-        .spouse;
-    if (spouseId != null) {
+  List<LineModel> getLine(
+      String id, List<UserModel> allFamily, List<UserPointModel> userPoints) {
+    List<LineModel> userLines = <LineModel>[];
+
+    List<String>? sons = getSons(id, allFamily);
+    if (sons != null) {
+      String? spouseId = allFamily.firstWhere((u) => u.id == sons[0]).dad == id
+          ? allFamily.firstWhere((u) => u.id == sons[0]).mom!
+          : allFamily.firstWhere((u) => u.id == sons[0]).dad!;
       userLines.addAll((UserLineModel(
               userPoints.firstWhere((element) => element.userId == id),
               userPoints.firstWhere((element) => element.userId == spouseId))
           .lines));
-      update();
-      if (getSons(id) == null) {
-        // userPoints.add(UserPointModel(userId: id, x: x, y: y));
-        return;
-      } else {
-        List<String> sons = getSons(id)!;
-        // int newY = (y + 1);
-        for (var sonId in sons) {
-          getLine(sonId);
-          //
-          UserLineModel _userLineModel = UserLineModel(
-              userPoints.firstWhere((element) => element.userId == id),
-              userPoints.firstWhere((element) => element.userId == sonId));
-          userLines.addAll(_userLineModel.lines);
-          update();
-        }
+      for (var sonId in sons) {
+        getLine(sonId, allFamily, userPoints);
+        UserLineModel _userLineModel = UserLineModel(
+            userPoints.firstWhere((element) => element.userId == id),
+            userPoints.firstWhere((element) => element.userId == sonId));
+        userLines.addAll(_userLineModel.lines);
       }
-    }
-    update();
+      //}
+    } else {}
+    return userLines;
   }
 }

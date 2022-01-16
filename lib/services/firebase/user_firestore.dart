@@ -30,6 +30,17 @@ class UserFirestore {
     });
   }
 
+  Future<List<UserModel>> getAllFamilyUsers(List<String> users) {
+    return _collectionReference.get().then((value) {
+      List<UserModel> result = [
+        ...value.docs.map(
+            (e) => UserModel.fromFire(e.data() as Map<String, dynamic>, e.id))
+      ];
+      result.removeWhere((element) => !users.contains(element.id));
+      return result;
+    });
+  }
+
   Future<UserModel?> getUserFromFirestoreByEmail(String email) async {
     return await _collectionReference
         .where(fieldEmail, isEqualTo: email)

@@ -7,9 +7,11 @@ import 'package:kins_v002/view_model/user_view_model.dart';
 import 'custom_text.dart';
 
 class NewPostWidget extends StatelessWidget {
-  NewPostWidget({Key? key, this.showProfile = false}) : super(key: key);
+  NewPostWidget({Key? key, this.showProfile = false, this.privacy = 'public'})
+      : super(key: key);
 
   bool showProfile;
+  String privacy;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,9 @@ class NewPostWidget extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Get.to(CreatePostScreen());
+                Get.to(CreatePostScreen(
+                  privacy: privacy,
+                ));
               },
               child: Container(
                 padding: const EdgeInsets.all(10.0),

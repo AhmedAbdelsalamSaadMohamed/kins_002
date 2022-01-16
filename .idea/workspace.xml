@@ -10,35 +10,52 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="07932ca9-8efe-485e-b81a-58d617b6992c" name="Default Changelist" comment="Initial commit">
+      <change afterPath="$PROJECT_DIR$/cloud_functions/functions/change_id.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/profile/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/constant/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/constant/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/constant/themes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/constant/themes.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/request_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/request_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/services/firebase/comment_sirestore.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/firebase/comment_sirestore.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/message_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/message_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/post_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/post_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services/firebase/chat_firestore.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/firebase/chat_firestore.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services/firebase/family_firestore.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/firebase/family_firestore.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/services/firebase/post_firestore.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/firebase/post_firestore.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/services/firebase/request_firestore.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/firebase/request_firestore.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils_langs/ar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/languages/ar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils_langs/en.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/languages/en.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils_langs/translation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/languages/translation.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/view/family_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/family_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/view/find_user_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/find_user_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/view/public_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/public_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/services/firebase/user_firestore.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/services/firebase/user_firestore.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/themes/dark_theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/themes/dark_theme.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/themes/light_theme.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/themes/light_theme.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/public_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/public_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/screens/add_user_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/add_user_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/screens/chat_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/chat_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/screens/chats_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/chats_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/screens/edit_user_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/edit_user_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/screens/family_members_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/family_members_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/screens/followers_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/followers_page.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view/screens/main_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/main_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/screens/map_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/map_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view/screens/profile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/profile_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/view/social/add_local_user_sceen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/social/add_local_user_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/screens/tree_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/screens/tree_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view/social/comments_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/social/comments_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/social/create_post_sceen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/social/create_post_sceen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/social/home_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/social/home_tab.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view/social/kins_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/social/kins_tab.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/tree_widgets/line_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/tree_widgets/line_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/tree_widgets/tree_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/tree_widgets/tree_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view/tree_widgets/user_point_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/tree_widgets/user_point_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/view/widgets/custom_app_bar_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/custom_app_bar_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/widgets/custom_image_network.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/custom_image_network.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/widgets/image_galery_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/image_galery.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/widgets/message_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/message_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/widgets/new_post_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/new_post_widget.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view/widgets/post_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/post_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/view/widgets/request_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/request_widget.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/view/widgets/video_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/video_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view/widgets/sign_in_button_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view/widgets/sign_in_button_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view_model/chat_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/chat_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view_model/family_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/family_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view_model/main_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/main_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view_model/notification_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/notification_view_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view_model/post_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/post_view_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view_model/request_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/request_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/view_model/tree_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/tree_view_model.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/view_model/user_view_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/view_model/user_view_model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -438,70 +455,6 @@
           <url>file://C:/src/flutter/packages/flutter/lib/src/material/app_bar.dart</url>
           <line>492</line>
           <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>7</line>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>8</line>
-          <option name="timeStamp" value="51" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>9</line>
-          <option name="timeStamp" value="52" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>11</line>
-          <option name="timeStamp" value="53" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>12</line>
-          <option name="timeStamp" value="54" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>13</line>
-          <option name="timeStamp" value="55" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>14</line>
-          <option name="timeStamp" value="56" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>15</line>
-          <option name="timeStamp" value="57" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>16</line>
-          <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>17</line>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>18</line>
-          <option name="timeStamp" value="60" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/main_view_model.dart</url>
-          <line>19</line>
-          <option name="timeStamp" value="61" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
-          <url>file://$PROJECT_DIR$/lib/view_model/tree_view_model.dart</url>
-          <option name="timeStamp" value="64" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="Dart">
           <url>file://$PROJECT_DIR$/lib/services/firebase/follow_fireStore.dart</url>

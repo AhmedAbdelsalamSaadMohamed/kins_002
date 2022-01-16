@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kins_v002/constant/const_colors.dart';
@@ -6,11 +7,14 @@ import 'package:kins_v002/controllers/local_tree_controller.dart';
 import 'package:kins_v002/services/firebase/notification_firestore.dart';
 import 'package:kins_v002/view/family_view.dart';
 import 'package:kins_v002/view/public_view.dart';
+import 'package:kins_v002/view/screens/map_screen.dart';
 import 'package:kins_v002/view/screens/profile_screen.dart';
+import 'package:kins_v002/view/screens/tree_screen.dart';
 import 'package:kins_v002/view/social/notifications_tab.dart';
 import 'package:kins_v002/view/widgets/custom_text.dart';
 import 'package:kins_v002/view/widgets/profile_circle_avatar.dart';
 import 'package:kins_v002/view_model/auth_view_model.dart';
+import 'package:kins_v002/view_model/chat_view_model.dart';
 import 'package:kins_v002/view_model/user_view_model.dart';
 
 import 'chats_screen.dart';
@@ -28,7 +32,7 @@ class MainScreen extends StatelessWidget {
       child: Scaffold(
         endDrawer: _drawer(),
         body: DefaultTabController(
-          length: 2,
+          length: 3,
           child: NestedScrollView(
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
@@ -95,10 +99,53 @@ class MainScreen extends StatelessWidget {
                         ),
                         IconButton(
                           icon: Stack(
-                            children: const [
+                            children: [
                               Icon(
                                 Icons.chat_bubble_outline,
                                 size: 30,
+                              ),
+                              Positioned(
+                                top: 0,
+                                child: StreamBuilder<int>(
+                                    stream:
+                                        ChatViewModel().getNotSeenChatsCount(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError ||
+                                          !snapshot.hasData ||
+                                          snapshot.data == 0) {
+                                        return Container();
+                                      }
+                                      return Align(
+                                          alignment: Alignment.topLeft,
+                                          child: CircleAvatar(
+                                              backgroundColor: Colors.red,
+                                              radius: 9,
+                                              child: Text(
+                                                snapshot.data!.toString(),
+                                                textAlign: TextAlign.center,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.white),
+                                              )));
+                                      Chip(
+                                        label: Text(
+                                          snapshot.data!.toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.red,
+                                        labelPadding: EdgeInsets.all(1),
+
+                                        // decoration: BoxDecoration(
+                                        //   color: Colors.red,
+                                        //   borderRadius: BorderRadius.circular(20),
+                                        // ),
+                                        padding: EdgeInsets.all(2),
+                                      );
+                                    }),
                               ),
                             ],
                           ),
@@ -115,22 +162,37 @@ class MainScreen extends StatelessWidget {
                       labelColor: Colors.grey,
                       tabs: [
                         Tab(
-                          text: 'home',
+                          icon: Icon(Icons.public),
                         ),
                         Tab(
-                          text: 'Family',
+                          icon: Icon(Icons.family_restroom_rounded),
+                        ),
+                        Tab(
+                          icon: Icon(Icons.person),
                         ),
                       ],
                       overlayColor: MaterialStateProperty.all(Colors.green),
                     ),
-                    actions: [],
                     pinned: true,
+                    leadingWidth: 0,
                   )
                 ];
               },
               body: TabBarView(
-                children: [PublicView(), FamilyView()],
+                children: [PublicView(), FamilyView(), ProfileScreen()],
               )),
+        ),
+        floatingActionButton: IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {
+            HttpsCallable callable =
+                FirebaseFunctions.instance.httpsCallable('changeId');
+            callable.call(<String, dynamic>{
+              "old": "oldId",
+              "new": "newId",
+            });
+            print('result = {resp.data}');
+          },
         ),
       ),
     );
@@ -148,8 +210,34 @@ class MainScreen extends StatelessWidget {
             title: CustomText(
               text: userController.currentUser!.name!,
             ),
-            onTap: () =>
-                Get.to(ProfileScreen(user: userController.currentUser!)),
+            onTap: () => Get.to(ProfileScreen()),
+          ),
+          Divider(),
+          ListTile(
+            title: Text('Family Tree'),
+            trailing: Icon(Icons.account_tree_rounded),
+            onTap: () {
+              Get.to(TreeScreen());
+            },
+          ),
+          ListTile(
+            title: Text('Family Map'),
+            trailing: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Icon(Icons.account_tree_rounded),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: Icon(Icons.account_tree_rounded),
+                )
+              ],
+            ),
+            onTap: () {
+              Get.to(MapScreen());
+            },
           ),
           Divider(),
           GetBuilder(

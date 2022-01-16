@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kins_v002/model/user_model.dart';
-import 'package:kins_v002/view/screens/profile_screen.dart';
+import 'package:kins_v002/view/screens/user_screen.dart';
 import 'package:kins_v002/view/widgets/profile_circle_avatar.dart';
 import 'package:kins_v002/view_model/family_view_model.dart';
 import 'package:kins_v002/view_model/follow_view_model.dart';
@@ -190,7 +190,7 @@ class FollowerWidget extends StatelessWidget {
                 },
               ),
               onTap: () {
-                Get.to(ProfileScreen(
+                Get.to(UserScreen(
                   user: user,
                 ));
               },
@@ -248,7 +248,7 @@ class FollowingWidget extends StatelessWidget {
                 },
               ),
               onTap: () {
-                Get.to(ProfileScreen(
+                Get.to(UserScreen(
                   user: user,
                 ));
               },

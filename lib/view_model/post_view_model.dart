@@ -16,33 +16,6 @@ class PostViewModel extends GetxController {
   PostFireStore _postFireStore = PostFireStore();
   UserModel _currentUser = Get.find<UserViewModel>().currentUser!;
 
-  PostViewModel() {}
-
-  // PostViewModel.byTag(this.postId) {
-  //   initByTag();
-  // }
-  //
-  // String? postId;
-  // RxInt commentsCount = 0.obs, lovesCount = 0.obs;
-  // RxBool isLove = false.obs;
-  // PostModel post = PostModel();
-
-  // initByTag() {
-  //   PostFireStore().getPostSteam(postId!).listen((event) {
-  //     post = PostModel.fromFire(event.data() as Map<String, dynamic>, postId);
-  //     lovesCount.value = post.loves == null ? 0 : post.loves!.length;
-  //     isLove.value = post.loves == null
-  //         ? false
-  //         : post.loves!.contains(Get.find<UserViewModel>().currentUser!.id);
-  //   });
-  //   // CommentViewModel()
-  //   //     .getCommentsCount(postId!)
-  //   //     .then((value) => commentsCount.value = value);
-  //   // CommentFirestore(postId: postId!).getCommentsStream().listen((event) {
-  //   //   commentsCount.value = event.docs.length;
-  //   // });
-  // }
-
   Stream<PostModel> getPostStream({required String postId}) {
     return _postFireStore.getPostSteam(postId).map((event) =>
         PostModel.fromFire(event.data() as Map<String, dynamic>, event.id));
@@ -54,7 +27,11 @@ class PostViewModel extends GetxController {
     });
   }
 
-  uploadPost({String text = ' ', List<File>? images, File? video}) {
+  uploadPost(
+      {String text = ' ',
+      List<File>? images,
+      File? video,
+      required String privacy}) {
     List<String> imagesUrls = [];
     String? videoUrl;
 
@@ -92,6 +69,7 @@ class PostViewModel extends GetxController {
       PostModel post = PostModel(
           ownerId: Get.find<UserViewModel>().currentUser!.id,
           postText: text,
+          postPrivacy: privacy,
           imagesUrls: imagesUrls,
           videoUrl: videoUrl,
           postTime: Timestamp.now());
@@ -112,19 +90,18 @@ class PostViewModel extends GetxController {
             imagesUrls: imagesUrls,
             videoUrl: videoUrl,
             postTime: Timestamp.now());
-        PostFireStore().addPost(post).then((value) => Get.back());
+        PostFireStore().addPost(post);
       }
     });
   }
 
-  loveOrNotPost(String postId) {
-    isLoverPost(postId: postId).single.then((value) {
-      if (false) {
-        _postFireStore.lovePost(postId);
-      } else {
-        _postFireStore.notLovePost(postId);
-      }
-    });
+  loveOrNotPost({required bool isLoved, required String postId}) {
+    if (isLoved) {
+      _postFireStore.notLovePost(postId);
+    } else {
+      _postFireStore.lovePost(postId);
+    }
+    ;
   }
 
   Stream<bool> isLoverPost({required String postId}) {
@@ -139,5 +116,16 @@ class PostViewModel extends GetxController {
     return await _postFireStore.getPost(postId).then((value) => value);
   }
 
-  getPublicPosts() {}
+  Future<List<String>> getPublicPosts() async {
+    List<String> result = [];
+    result.addAll(await _postFireStore.getPublicPosts());
+    result.addAll(await _postFireStore.getFollowingPosts());
+    result.addAll(await _postFireStore.getFamilyPosts());
+
+    return [...result.toSet()];
+  }
+
+  Future<List<String>> getFamilyPosts() {
+    return _postFireStore.getFamilyPosts();
+  }
 }

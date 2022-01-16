@@ -4,7 +4,7 @@ const Color main1 = Color.fromRGBO(250, 250, 250, 1);
 const Color main2 = Color.fromRGBO(200, 200, 200, 1);
 // const Color _color1 = Colors.white;
 const Color _color2 = Colors.black;
-const Color _primary = Color(0xff0d3a0a);
+const Color _primary = Colors.green;
 // const Color background2 = Colors.black26;
 const Color onBackground2 = Colors.black54;
 ThemeData lightTheme = ThemeData.light().copyWith(
@@ -60,11 +60,11 @@ ThemeData lightTheme = ThemeData.light().copyWith(
   ),
   inputDecorationTheme: const InputDecorationTheme(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        borderRadius: BorderRadius.all(Radius.circular(25.0)),
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: _primary),
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        borderRadius: BorderRadius.all(Radius.circular(25.0)),
       ),
       counterStyle: TextStyle(color: _color2)),
   progressIndicatorTheme: ProgressIndicatorThemeData(
